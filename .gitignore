@@ -1,0 +1,13 @@
+.DS_Store
+.idea/
+Readme.txt
+USB_PORT.properties
+jACS.iml
+out/
+src/.DS_Store
+src/isel/.DS_Store
+src/isel/leic/.DS_Store
+src/isel/leic/lic/.DS_Store
+src/isel/leic/lic/g8/.DS_Store
+src/isel/leic/lic/g8/Keyboard/.DS_Store
+usbport.jar
