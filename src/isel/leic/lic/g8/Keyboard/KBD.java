@@ -21,7 +21,7 @@
  *   RX_VAL     RX_DATA
  *     1 0 1 0  1 1 1 1
  *        TX_ACK
- * 
+ *
  * Apos receção do valor do teclado, é necessário mapear o valor para o carater
  * do enviado:
  *   _________________
@@ -89,12 +89,34 @@ public class KBD {
 
         while ((Time.getTimeInMillis() < time) || (key == NONE)) {
             key = getKey();
+            System.out.println("Time " + Time.getTimeInMillis());
         }
 
         return key;
     }
 
     private static char mapKeyToChar(int k) {
-        return MAP_CHAR[k>>2][k & 0x2];
+        return MAP_CHAR[k>>2][k & 0x3];
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Testes KDB");
+
+        System.out.println("Teste MAPEAR CARATER");
+        System.out.println("Teste 1 - mapKeyToChar (1): " + mapKeyToChar(0x0)); // 0000
+        System.out.println("Teste 2 - mapKeyToChar (4): " + mapKeyToChar(0x1)); // 0001
+        System.out.println("Teste 3 - mapKeyToChar (7): " + mapKeyToChar(0x2)); // 0010
+        System.out.println("Teste 4 - mapKeyToChar (*): " + mapKeyToChar(0x3)); // 0011
+        System.out.println("Teste 5 - mapKeyToChar (2): " + mapKeyToChar(0x4)); // 0100
+        System.out.println("Teste 6 - mapKeyToChar (5): " + mapKeyToChar(0x5)); // 0101
+        System.out.println("Teste 7 - mapKeyToChar (8): " + mapKeyToChar(0x6)); // 0110
+        System.out.println("Teste 8 - mapKeyToChar (0): " + mapKeyToChar(0x7)); // 0111
+        System.out.println("Teste 9 - mapKeyToChar (3): " + mapKeyToChar(0x8)); // 1000
+        System.out.println("Teste 10 - mapKeyToChar (6): " + mapKeyToChar(0x9)); // 1001
+        System.out.println("Teste 11 - mapKeyToChar (9): " + mapKeyToChar(0xa)); // 1010
+        System.out.println("Teste 12 - mapKeyToChar (#): " + mapKeyToChar(0x0b)); // 1011
+
+        System.out.println("Teste waitKey");
+        System.out.println("Teste 13 - waitKey (NONE) " + waitKey(1000));
     }
 }
