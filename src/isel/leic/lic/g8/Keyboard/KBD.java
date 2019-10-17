@@ -18,6 +18,10 @@
  *   - Data (RX_DATA): primeiros 4 bits - 0xf
  *   - ACK (TX_ACK): 6bit - 0x20
  *
+ *   RX_VAL     RX_DATA
+ *     1 0 1 0  1 1 1 1
+ *        TX_ACK
+ * 
  * Apos receção do valor do teclado, é necessário mapear o valor para o carater
  * do enviado:
  *   _________________
@@ -81,9 +85,9 @@ public class KBD {
     // decorrido 'timeout' milisegundos
     public static char waitKey(long timeout) {
         char key = NONE;
-        long now = Time.getTimeInMillis();
+        long time = Time.getTimeInMillis() + timeout;
 
-        while ((now < (now + timeout)) || (key == NONE)) {
+        while ((Time.getTimeInMillis() < time) || (key == NONE)) {
             key = getKey();
         }
 
