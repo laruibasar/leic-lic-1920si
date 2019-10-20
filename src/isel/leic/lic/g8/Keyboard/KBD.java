@@ -1,3 +1,10 @@
+/*-
+ * SPDX-License-Identifier: BSD-3-Clause
+ *
+ * Copyright (c) 2019 Luis Bandarra <luis.bandarra@homestudio.pt>
+ * Copyright (c) 2019 Gonçalo Lourenço
+ */
+
 /*
  * Ler teclas. Métodos retornam carateres de '0'..'9', '#', '*' ou NONE.
  *
@@ -19,7 +26,9 @@
  *   - ACK (TX_ACK): 6bit - 0x20
  *
  *   RX_VAL     RX_DATA
- *     1 0 1 0  1 1 1 1
+ *     1 0 0 0  1 1 1 1
+ *
+ *     0 0 0 0  0 0 0 1
  *        TX_ACK
  *
  * Apos receção do valor do teclado, é necessário mapear o valor para o carater
@@ -52,7 +61,7 @@ public class KBD {
 
     private static int RX_VAL = 0x80;
     private static int RX_DATA = 0xf;
-    private static int TX_ACK = 0x20;
+    private static int TX_ACK = 0x1;
 
     public static final char NONE = 0;
     public static final char[][] MAP_CHAR = {

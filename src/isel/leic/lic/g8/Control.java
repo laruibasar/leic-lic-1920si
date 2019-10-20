@@ -1,3 +1,10 @@
+/*-
+ * SPDX-License-Identifier: BSD-3-Clause
+ *
+ * Copyright (c) 2019 Luis Bandarra <luis.bandarra@homestudio.pt>
+ * Copyright (c) 2019 Gonçalo Lourenço
+ */
+
 package isel.leic.lic.g8;
 
 import isel.leic.lic.g8.Keyboard.KBD;

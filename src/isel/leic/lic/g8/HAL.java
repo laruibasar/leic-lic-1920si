@@ -1,3 +1,10 @@
+/*-
+ * SPDX-License-Identifier: BSD-3-Clause
+ *
+ * Copyright (c) 2019 Luis Bandarra <luis.bandarra@homestudio.pt>
+ * Copyright (c) 2019 Gonçalo Lourenço
+ */
+
 // Virtualiza o acesso ao sistema UsbPort
 package isel.leic.lic.g8;
 
