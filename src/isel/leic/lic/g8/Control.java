@@ -24,5 +24,4 @@ public class Control {
             System.out.println("Tecla: " + key);
         }
     }
-
 }
