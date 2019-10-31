@@ -84,7 +84,7 @@ public class KBD {
             while (HAL.isBit(RX_VAL)) {
                 HAL.setBits(TX_ACK);
             }
-            HAL.crlBits(TX_ACK);
+            HAL.clrBits(TX_ACK);
         }
 
         return key;
@@ -98,7 +98,6 @@ public class KBD {
 
         while ((Time.getTimeInMillis() < time) || (key == NONE)) {
             key = getKey();
-            System.out.println("Time " + Time.getTimeInMillis());
         }
 
         return key;
