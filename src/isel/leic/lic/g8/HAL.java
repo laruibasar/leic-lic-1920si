@@ -120,12 +120,13 @@ public class HAL {
         Time.sleep(1000);
         clrBits(0xff);
 
-        System.out.println("Teste readBits");
-        System.out.println("Teste 11: readBits ");
-        while (true) {
-            int tmp = readBits(0x0f);
-            System.out.println("readed: " + tmp);
-            System.out.println("input_value: " + last_write);
-        }
+
+        // System.out.println("Teste readBits");
+        // System.out.println("Teste 11: readBits ");
+        // while (true) {
+            // int tmp = readBits(0x0f);
+            // System.out.println("readed: " + tmp);
+            // System.out.println("input_value: " + last_write);
+        // }
     }
 }
