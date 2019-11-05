@@ -4,17 +4,22 @@
  * Copyright (c) 2019 Luis Bandarra <luis.bandarra@homestudio.pt>
  */
 
+/*
+ * setBits write bits to OUT PORT, don't clear
+ */
+
 // Virtualiza o acesso ao sistema UsbPort
 package isel.leic.lic.g8;
 
 import isel.leic.UsbPort;
+import isel.leic.utils.Time;
 
 public class HAL {
     private static int input_value;
 
     // Inicia a classe
     public static void init() {
-        input_value = 0;
+        input_value = 0x0;
     }
 
     // Retorna true se o bit tiver o valor lógico 1
@@ -50,13 +55,78 @@ public class HAL {
     public static void main(String[] args) {
         System.out.println("Testes HAL");
 
+        System.out.print("Init...");
         init();
+        System.out.print(input_value + " ");
         clrBits(0xff);
-        System.out.print("Teste 1: setBits (0000 1111)");
+        System.out.println("clrBits 0xff");
+        Time.sleep(4000);
+
+        System.out.println("Testes setBits");
+        System.out.println("Teste 1: setBits (0000 1111)");
+        input_value = 0xf0;
         setBits(0xf);
-        System.out.println(" | " + readBits(0xf));
-        System.out.print("Teste 2: setBits (1111 0000)");
+
+        Time.sleep(1000);
+        clrBits(0xff);
+        System.out.println("Teste 2: setBits (1111 0000)");
         setBits(0xf0);
-        System.out.println(" | " + readBits(0xf));
+
+        Time.sleep(1000);
+        clrBits(0xff);
+        System.out.println("Teste 3: setBits (1111 1111)");
+        setBits(0xff);
+
+        Time.sleep(1000);
+        clrBits(0xff);
+        System.out.println("Teste 4: setBits (0111 1110)");
+        setBits(0x7e);
+
+        Time.sleep(1000);
+        clrBits(0xff);
+        System.out.println("Teste 5: setBits (0001 1000)");
+        setBits(0x18);
+
+        Time.sleep(1000);
+        clrBits(0xff);
+        System.out.println("Teste 6: setBits (0110 0110)");
+        setBits(0x66);
+
+        Time.sleep(1000);
+        clrBits(0xff);
+        System.out.println("Teste 7: setBits (0100 0000)");
+        setBits(0x40);
+
+        Time.sleep(1000);
+        clrBits(0xff);
+        System.out.println("Fim teste: setBits");
+
+        Time.sleep(3000);
+        System.out.println("Testes clrBits");
+        System.out.print("Teste 8: setBits (1110 0111)");
+        setBits(0xe7);
+        Time.sleep(1000);
+        clrBits(0xe7);
+        System.out.print("... clear (0000 0000)");
+
+        System.out.println("Testes writeBits");
+        System.out.println("Teste 9: writeBits mask: 0xf int: 0xff");
+        writeBits(0xf, 0xff);
+        Time.sleep(3000);
+        clrBits(0xff);
+
+        System.out.println("Testes writeBits");
+        System.out.println("Teste 10: writeBits mask: 0x1 int: 0xff ");
+        writeBits(0x1, 0xff);
+        Time.sleep(1000);
+        clrBits(0xff);
+
+        System.out.println("Teste readBits");
+        System.out.println("Teste 11: readBits ");
+        while (true) {
+            int tmp = readBits(0x0f);
+            System.out.println("readed: " + tmp);
+            System.out.println("input_value: " + input_value);
+        }
     }
 }
