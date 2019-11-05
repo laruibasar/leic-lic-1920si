@@ -15,11 +15,11 @@ import isel.leic.UsbPort;
 import isel.leic.utils.Time;
 
 public class HAL {
-    private static int input_value;
+    private static int last_write;
 
     // Inicia a classe
     public static void init() {
-        input_value = 0x0;
+        last_write = 0x0;
     }
 
     // Retorna true se o bit tiver o valor lógico 1
@@ -31,25 +31,25 @@ public class HAL {
     // Retorna os valores dos bits representados por mask presentes no UsbPort
     // we update current value for register in memory
     public static int readBits(int mask) {
-        input_value = UsbPort.in();
-        return input_value & mask;
+        return UsbPort.in() & mask;
     }
 
     // Escreve nos bits representados por mask o valor de value
     public static void writeBits(int mask, int value) {
-        UsbPort.out(value & mask);
+        last_write = value & mask;
+        UsbPort.out(last_write);
     }
 
     // Coloca os bits representados por mask no valor lógico '1'
     public static void setBits(int mask) {
-        input_value |= mask;
-        UsbPort.out(input_value);
+        last_write |= mask;
+        UsbPort.out(last_write);
     }
 
     // Coloca os bits representados por mask no valor lógico '0'
     public static void clrBits(int mask) {
-        input_value &= (~mask);
-        UsbPort.out(input_value);
+        last_write &= (~mask);
+        UsbPort.out(last_write);
     }
 
     public static void main(String[] args) {
@@ -57,14 +57,13 @@ public class HAL {
 
         System.out.print("Init...");
         init();
-        System.out.print(input_value + " ");
+        System.out.print(last_write + " ");
         clrBits(0xff);
         System.out.println("clrBits 0xff");
         Time.sleep(4000);
 
         System.out.println("Testes setBits");
         System.out.println("Teste 1: setBits (0000 1111)");
-        input_value = 0xf0;
         setBits(0xf);
 
         Time.sleep(1000);
@@ -126,7 +125,7 @@ public class HAL {
         while (true) {
             int tmp = readBits(0x0f);
             System.out.println("readed: " + tmp);
-            System.out.println("input_value: " + input_value);
+            System.out.println("input_value: " + last_write);
         }
     }
 }
