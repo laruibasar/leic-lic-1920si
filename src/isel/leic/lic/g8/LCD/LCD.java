@@ -6,6 +6,7 @@
 package isel.leic.lic.g8.LCD;
 
 import isel.leic.lic.g8.HAL;
+import isel.leic.utils.Time;
 
 public class LCD {
     public static final int LINES = 2, COLS = 16; // Dimensão do display
@@ -16,27 +17,26 @@ public class LCD {
     // MASK for sending nibble (parallel)
     private static int MASK_ENABLE = 0x20;  // 0010 0000
     private static int MASK_RS = 0x10;      // 000R 0000
-    private static int MASK_DATA = 0x0f;    // 0000 1111
+    private static int MASK_LOW_DATA = 0x0f;    // 0000 1111
+    private static int MASK_HIGH_DATA = 0xf0;    // 0000 1111
+    private static int MASK_PARALLEL = 0x3f;
 
     private static boolean DEBUG = false;
 
     // Escreve um nibble de comando/dados no LCD em paralelo
     // the HAL signal will be: 0 0 E (RS) NIBBLE
     private static void writeNibbleParallel(boolean rs, int data) {
-        // set RS first
-        if (rs == true)
-            HAL.setBits(MASK_RS);
-        else
-            HAL.clrBits(MASK_RS);
-
+        int value = 0;
+        // set RS
+        if (rs)
+            value |= MASK_RS;
         // set ENABLE
-        HAL.setBits(MASK_ENABLE);
-
+        value |= MASK_ENABLE;
         // send DATA
-        HAL.writeBits(MASK_DATA, data);
-
-        // clear ENABLE
-        HAL.clrBits(MASK_ENABLE);
+        value |= data;
+        HAL.writeBits(MASK_PARALLEL, value);
+        if (DEBUG)
+            System.out.println("Value:" + value);
     }
 
     // Escreve um nibble de comando/dados no LCD em série
@@ -54,12 +54,12 @@ public class LCD {
     private static void writeByte(boolean rs, int data) {
         // write higher nibble first
         if (DEBUG)
-            System.out.println("RS: " + rs + "\thigh nibble: " + Integer.toString(((0xf0 & data) >> 4)));
-        writeNibble (rs, (0xf0 & data) >> 4);
+            System.out.println("RS: " + rs + "\thigh nibble: " + Integer.toString(((MASK_HIGH_DATA & data) >> 4)));
+        writeNibble (rs, (MASK_HIGH_DATA & data) >> 4);
         // write lower nibble second
         if (DEBUG)
-            System.out.println("RS: " + rs + "\tlow nibble: " + Integer.toString(0x0f & data));
-        writeNibble(rs, 0x0f & data);
+            System.out.println("RS: " + rs + "\tlow nibble: " + Integer.toString(MASK_LOW_DATA & data));
+        writeNibble(rs, MASK_LOW_DATA & data);
     }
 
     // Escreve um comando no LCD
@@ -73,7 +73,9 @@ public class LCD {
     }
 
     // Envia a sequência de iniciação para a comunicação a 4 bits
-    public static void init() {}
+    public static void init() {
+        
+    }
 
     public static void main(String[] args) {
         System.out.println("Testes");
@@ -82,16 +84,25 @@ public class LCD {
         System.out.println("Testes writeNibbleParallel:");
         System.out.println("Teste 1: write RS: 0 data: 1 Result: 0010 0001 (33)");
         writeNibbleParallel(false, 1);
+        Time.sleep(2000);
+
         System.out.println("Teste 2: write RS: 0 data: 3 Result: 0010 0011 (35)");
         writeNibbleParallel(false, 3);
+        Time.sleep(2000);
+
         System.out.println("Teste 3: write RS: 1 data: 15 Result: 0011 1111 (63)");
         writeNibbleParallel(true, 15);
+        Time.sleep(2000);
+
         System.out.println("Teste 4: write RS: 1 data: 0 Result: 0011 0000 (48)");
         writeNibbleParallel(true, 0);
+        Time.sleep(2000);
 
         System.out.println("Testes writeByte:");
         System.out.println("Teste 5: write RS: 0 data: 10 (0000 1010) Result 1: 0010 0000 (32) + 2: 0010 1010 (42)");
         writeByte(false, 10);
+        Time.sleep(2000);
+
         System.out.println("Teste 6: write RS: 1 data: 00 (0000 0000) Result 1: 0011 0000 (48) + 2: 0011 0000 (48)");
         writeByte(true, 0);
     }
