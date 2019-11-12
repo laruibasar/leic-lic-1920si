@@ -26,17 +26,16 @@ public class LCD {
     // Escreve um nibble de comando/dados no LCD em paralelo
     // the HAL signal will be: 0 0 E (RS) NIBBLE
     private static void writeNibbleParallel(boolean rs, int data) {
-        int value = 0;
         // set RS
         if (rs)
-            value |= MASK_RS;
-        // set ENABLE
-        value |= MASK_ENABLE;
-        // send DATA
-        value |= data;
-        HAL.writeBits(MASK_PARALLEL, value);
-        if (DEBUG)
-            System.out.println("Value:" + value);
+            HAL.setBits(MASK_RS);
+        else
+            HAL.clrBits(MASK_RS);
+
+        // set enable
+        HAL.setBits(MASK_ENABLE);
+        // send data
+        HAL.writeBits(MASK_LOW_DATA, data);
     }
 
     // Escreve um nibble de comando/dados no LCD em série
@@ -74,36 +73,62 @@ public class LCD {
 
     // Envia a sequência de iniciação para a comunicação a 4 bits
     public static void init() {
-        
+        System.out.print("Initialization LCD...\n");
+        Time.sleep(15); // 1 standby
+        writeCMD(0x3);  // FS
+        Time.sleep(5);  // 2 standby
+        writeCMD(0x3);  // FS
+        Time.sleep(1);  // 3 timeout
+        writeCMD(0x3);  // FS
+
+        writeCMD(0x2);  // BF can be checked
+
+        writeCMD(0x2);  // BF can be checked
+        writeCMD(0x8);  // N: 2-line; F: 5x8
+        // display on/off
+        writeCMD(0x0);  // clear
+        writeCMD(0x1);
+        // entry mode set
+        writeCMD(0x0);  // clear
+        writeCMD(0x6);  // I/D:1 inc S:0 no shift
+
+        System.out.println("LCD ready");
     }
 
     public static void main(String[] args) {
-        System.out.println("Testes");
-        DEBUG = true;
+        HAL.init();
+        init();
 
-        System.out.println("Testes writeNibbleParallel:");
-        System.out.println("Teste 1: write RS: 0 data: 1 Result: 0010 0001 (33)");
-        writeNibbleParallel(false, 1);
         Time.sleep(2000);
 
-        System.out.println("Teste 2: write RS: 0 data: 3 Result: 0010 0011 (35)");
-        writeNibbleParallel(false, 3);
-        Time.sleep(2000);
+        DEBUG = false;
+        if (DEBUG) {
+            System.out.println("Testes");
 
-        System.out.println("Teste 3: write RS: 1 data: 15 Result: 0011 1111 (63)");
-        writeNibbleParallel(true, 15);
-        Time.sleep(2000);
+            System.out.println("Testes writeNibbleParallel:");
+            System.out.println("Teste 1: write RS: 0 data: 1 Result: 0010 0001 (33)");
+            writeNibbleParallel(false, 1);
+            Time.sleep(2000);
 
-        System.out.println("Teste 4: write RS: 1 data: 0 Result: 0011 0000 (48)");
-        writeNibbleParallel(true, 0);
-        Time.sleep(2000);
+            System.out.println("Teste 2: write RS: 0 data: 3 Result: 0010 0011 (35)");
+            writeNibbleParallel(false, 3);
+            Time.sleep(2000);
 
-        System.out.println("Testes writeByte:");
-        System.out.println("Teste 5: write RS: 0 data: 10 (0000 1010) Result 1: 0010 0000 (32) + 2: 0010 1010 (42)");
-        writeByte(false, 10);
-        Time.sleep(2000);
+            System.out.println("Teste 3: write RS: 1 data: 15 Result: 0011 1111 (63)");
+            writeNibbleParallel(true, 15);
+            Time.sleep(2000);
 
-        System.out.println("Teste 6: write RS: 1 data: 00 (0000 0000) Result 1: 0011 0000 (48) + 2: 0011 0000 (48)");
-        writeByte(true, 0);
+            System.out.println("Teste 4: write RS: 1 data: 0 Result: 0011 0000 (48)");
+            writeNibbleParallel(true, 0);
+            Time.sleep(2000);
+
+            System.out.println("Testes writeByte:");
+            System.out.println("Teste 5: write RS: 0 data: 10 (0000 1010) Result 1: 0010 0000 (32) + 2: 0010 1010 (42)");
+            writeByte(false, 10);
+            Time.sleep(2000);
+
+            System.out.println("Teste 6: write RS: 1 data: 00 (0000 0000) Result 1: 0011 0000 (48) + 2: 0011 0000 (48)");
+            writeByte(true, 0);
+        }
     }
 }
