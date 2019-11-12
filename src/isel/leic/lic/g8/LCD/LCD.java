@@ -26,9 +26,9 @@ public class LCD {
             value |= (1 << RS_BIT); // rs : rs << 5
 
         // value : 0 0 E (RS) D A T A
-        if (DEBUG) {
+        if (DEBUG)
             System.out.println(value | data);
-        }
+
         HAL.writeBits(PARALLEL_MASK, value | data);
     }
 
@@ -44,7 +44,16 @@ public class LCD {
     }
 
     // Escreve um byte de comando/dado no LCD
-    private static void writeByte(boolean rs, int data) {}
+    private static void writeByte(boolean rs, int data) {
+        // write higher nibble first
+        if (DEBUG)
+            System.out.println("RS: " + rs + "\thigh nibble: " + Integer.toString(((0xf0 & data) >> 4)));
+        writeNibble (rs, (0xf0 & data) >> 4);
+        // write lower nibble second
+        if (DEBUG)
+            System.out.println("RS: " + rs + "\tlow nibble: " + Integer.toString(0x0f & data));
+        writeNibble(rs, 0x0f & data);
+    }
 
     // Escreve um comando no LCD
     private static void writeCMD(int data) {
@@ -72,5 +81,11 @@ public class LCD {
         writeNibbleParallel(true, 15);
         System.out.println("Teste 4: write RS: 1 data: 0 Result: 0011 0000 (48)");
         writeNibbleParallel(true, 0);
+
+        System.out.println("Testes writeByte:");
+        System.out.println("Teste 5: write RS: 0 data: 10 (0000 1010) Result 1: 0010 0000 (32) + 2: 0010 1010 (42)");
+        writeByte(false, 10);
+        System.out.println("Teste 6: write RS: 1 data: 00 (0000 0000) Result 1: 0011 0000 (48) + 2: 0011 0000 (48)");
+        writeByte(true, 0);
     }
 }
