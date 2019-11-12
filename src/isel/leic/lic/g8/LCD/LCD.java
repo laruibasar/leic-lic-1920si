@@ -1,3 +1,8 @@
+/*-
+ * SPDX-License-Identifier: BSD-3-Clause
+ *
+ * Copyright (c) 2019 Luis Bandarra <luis.bandarra@homestudio.pt>
+ */
 package isel.leic.lic.g8.LCD;
 
 import isel.leic.lic.g8.HAL;
@@ -9,27 +14,29 @@ public class LCD {
     private static final boolean SERIAL_INTERFACE = false;
 
     // MASK for sending nibble (parallel)
-    private static int PARALLEL_MASK = 0x3f; // 0011 1111
-    private static int ENABLE_BIT = 5;
-    private static int RS_BIT = 4;
+    private static int MASK_ENABLE = 0x20;  // 0010 0000
+    private static int MASK_RS = 0x10;      // 000R 0000
+    private static int MASK_DATA = 0x0f;    // 0000 1111
 
     private static boolean DEBUG = false;
 
     // Escreve um nibble de comando/dados no LCD em paralelo
     // the HAL signal will be: 0 0 E (RS) NIBBLE
-    //
     private static void writeNibbleParallel(boolean rs, int data) {
-        int value = 0;
+        // set RS first
+        if (rs == true)
+            HAL.setBits(MASK_RS);
+        else
+            HAL.clrBits(MASK_RS);
 
-        value = (1 << ENABLE_BIT); // enable : 1 << 6
-        if (rs)
-            value |= (1 << RS_BIT); // rs : rs << 5
+        // set ENABLE
+        HAL.setBits(MASK_ENABLE);
 
-        // value : 0 0 E (RS) D A T A
-        if (DEBUG)
-            System.out.println(value | data);
+        // send DATA
+        HAL.writeBits(MASK_DATA, data);
 
-        HAL.writeBits(PARALLEL_MASK, value | data);
+        // clear ENABLE
+        HAL.clrBits(MASK_ENABLE);
     }
 
     // Escreve um nibble de comando/dados no LCD em série
