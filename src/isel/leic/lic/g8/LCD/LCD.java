@@ -19,7 +19,6 @@ public class LCD {
     private static int MASK_RS = 0x10;      // 000R 0000
     private static int MASK_LOW_DATA = 0x0f;    // 0000 1111
     private static int MASK_HIGH_DATA = 0xf0;    // 0000 1111
-    private static int MASK_PARALLEL = 0x3f;
 
     private static boolean DEBUG = false;
 
@@ -31,11 +30,14 @@ public class LCD {
             HAL.setBits(MASK_RS);
         else
             HAL.clrBits(MASK_RS);
-
         // set enable
         HAL.setBits(MASK_ENABLE);
         // send data
         HAL.writeBits(MASK_LOW_DATA, data);
+        // disable enable
+        HAL.clrBits(MASK_ENABLE);
+        // clear rs
+        HAL.clrBits(MASK_RS);
     }
 
     // Escreve um nibble de comando/dados no LCD em série
@@ -52,12 +54,8 @@ public class LCD {
     // Escreve um byte de comando/dado no LCD
     private static void writeByte(boolean rs, int data) {
         // write higher nibble first
-        if (DEBUG)
-            System.out.println("RS: " + rs + "\thigh nibble: " + Integer.toString(((MASK_HIGH_DATA & data) >> 4)));
         writeNibble (rs, (MASK_HIGH_DATA & data) >> 4);
         // write lower nibble second
-        if (DEBUG)
-            System.out.println("RS: " + rs + "\tlow nibble: " + Integer.toString(MASK_LOW_DATA & data));
         writeNibble(rs, MASK_LOW_DATA & data);
     }
 
@@ -80,11 +78,10 @@ public class LCD {
         writeCMD(0x3);  // FS
         Time.sleep(1);  // 3 timeout
         writeCMD(0x3);  // FS
-
         writeCMD(0x2);  // BF can be checked
 
         writeCMD(0x2);  // BF can be checked
-        writeCMD(0x8);  // N: 2-line; F: 5x8
+        writeCMD(0x26);  // N: 2-line; F: 5x8
         // display on/off
         writeCMD(0x0);  // clear
         writeCMD(0x1);
@@ -101,7 +98,7 @@ public class LCD {
 
         Time.sleep(2000);
 
-        DEBUG = false;
+        // DEBUG = true;
         if (DEBUG) {
             System.out.println("Testes");
 
