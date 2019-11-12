@@ -57,8 +57,6 @@ import isel.leic.lic.g8.HAL;
 import isel.leic.utils.Time;
 
 public class KBD {
-    private static HAL hal;
-
     private static int RX_VAL = 0x80;
     private static int RX_DATA = 0xf;
     private static int TX_ACK = 0x1;
@@ -81,9 +79,8 @@ public class KBD {
 
         if (HAL.isBit(RX_VAL)) {
             key = mapKeyToChar(HAL.readBits(RX_DATA));
-            while (HAL.isBit(RX_VAL)) {
-                HAL.setBits(TX_ACK);
-            }
+            HAL.setBits(TX_ACK);
+            while (HAL.isBit(RX_VAL)); // espera mudança RX_VAL
             HAL.clrBits(TX_ACK);
         }
 
