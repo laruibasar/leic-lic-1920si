@@ -20,6 +20,7 @@ public class HAL {
     // Inicia a classe
     public static void init() {
         last_write = 0x0;
+        writeBits(0xff,0);
     }
 
     // Retorna true se o bit tiver o valor lógico 1
@@ -36,7 +37,7 @@ public class HAL {
 
     // Escreve nos bits representados por mask o valor de value
     public static void writeBits(int mask, int value) {
-        last_write = value & mask;
+        last_write |= (value & mask);
         UsbPort.out(last_write);
     }
 
