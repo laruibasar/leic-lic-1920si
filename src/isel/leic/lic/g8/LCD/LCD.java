@@ -57,6 +57,7 @@ public class LCD {
         writeNibble (rs, (MASK_HIGH_DATA & data) >> 4);
         // write lower nibble second
         writeNibble(rs, MASK_LOW_DATA & data);
+        Time.sleep(5);
     }
 
     // Escreve um comando no LCD
@@ -73,21 +74,20 @@ public class LCD {
     public static void init() {
         System.out.print("Initialization LCD...\n");
         Time.sleep(15); // 1 standby
-        writeCMD(0x3);  // FS
+        writeNibble(false, 0x3);  // FS
         Time.sleep(5);  // 2 standby
-        writeCMD(0x3);  // FS
+        writeNibble(false, 0x3);  // FS
         Time.sleep(1);  // 3 timeout
-        writeCMD(0x3);  // FS
-        writeCMD(0x2);  // BF can be checked
+        writeNibble(false, 0x3);  // FS
+        writeNibble(false, 0x2);  // FS
 
-        writeCMD(0x2);  // BF can be checked
-        writeCMD(0x26);  // N: 2-line; F: 5x8
+        writeCMD(0x28);  // BF can be checked
         // display on/off
-        writeCMD(0x0);  // clear
-        writeCMD(0x1);
+        writeCMD(0x8);  // clear
         // entry mode set
-        writeCMD(0x0);  // clear
+        writeCMD(0x1);  // clear
         writeCMD(0x6);  // I/D:1 inc S:0 no shift
+        writeCMD(0xf); // display on
 
         System.out.println("LCD ready");
     }
@@ -95,6 +95,9 @@ public class LCD {
     public static void main(String[] args) {
         HAL.init();
         init();
+
+        for (int i = 0; i < 10; i++)
+            writeDATA('0' + i);
 
         Time.sleep(2000);
 
