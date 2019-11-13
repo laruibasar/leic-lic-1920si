@@ -37,8 +37,10 @@ public class HAL {
 
     // Escreve nos bits representados por mask o valor de value
     public static void writeBits(int mask, int value) {
-        last_write |= (value & mask);
-        UsbPort.out(last_write);
+        //last_write |= (value & mask);
+        //UsbPort.out(last_write);
+        clrBits(mask);
+        setBits(value & mask);
     }
 
     // Coloca os bits representados por mask no valor lógico '1'
