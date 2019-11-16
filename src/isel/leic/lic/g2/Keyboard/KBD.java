@@ -19,12 +19,12 @@
  *
  * O sinal recebido na camada HAL tem a dimensão de 1 byte (8 bits), pelo que
  * definimos para as várias máscaras os seguintes bits:
- *   - Dval (VAL): 8bit - 0x80
+ *   - Dval (VAL): 5bit - 0x10
  *   - Data (DATA): primeiros 4 bits - 0xf
- *   - ACK (ACK): 6bit - 0x20
+ *   - ACK (ACK): 1bit - 0x01
  *
- *   VAL     DATA
- *     1 0 0 0  1 1 1 1
+ *       VAL    D A T A
+ *     0 0 0 1  1 1 1 1
  *
  *     0 0 0 0  0 0 0 1
  *        ACK
@@ -55,7 +55,7 @@ import isel.leic.lic.g2.HAL;
 import isel.leic.utils.Time;
 
 public class KBD {
-    private static int VAL = 0x80;
+    private static int VAL = 0x10;
     private static int DATA = 0xf;
     private static int ACK = 0x1;
 
