@@ -4,7 +4,7 @@
  */
 
 // Virtualiza o acesso ao sistema UsbPort
-package isel.leic.lic.g8;
+package isel.leic.lic.g2;
 
 import isel.leic.UsbPort;
 

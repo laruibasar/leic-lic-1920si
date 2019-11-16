@@ -8,6 +8,6 @@ src/.DS_Store
 src/isel/.DS_Store
 src/isel/leic/.DS_Store
 src/isel/leic/lic/.DS_Store
-src/isel/leic/lic/g8/.DS_Store
-src/isel/leic/lic/g8/Keyboard/.DS_Store
+isel/leic/lic/g2/.DS_Store
+isel/leic/lic/g2/Keyboard/.DS_Store
 usbport.jar

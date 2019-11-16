@@ -3,9 +3,10 @@
  *
  * Copyright (c) 2019 Luis Bandarra <luis.bandarra@homestudio.pt>
  */
-package isel.leic.lic.g8.LCD;
+package isel.leic.lic.g2.LCD;
 
-import isel.leic.lic.g8.HAL;
+import isel.leic.lic.g2.HAL;
+import isel.leic.lic.g2.SerialEmitter;
 import isel.leic.utils.Time;
 
 public class LCD {
@@ -24,24 +25,27 @@ public class LCD {
 
     // Escreve um nibble de comando/dados no LCD em paralelo
     // the HAL signal will be: 0 0 E (RS) NIBBLE
+    // following the time progressing from datasheets
     private static void writeNibbleParallel(boolean rs, int data) {
-        // set RS
         if (rs)
             HAL.setBits(MASK_RS);
         else
             HAL.clrBits(MASK_RS);
-        // set enable
         HAL.setBits(MASK_ENABLE);
-        // send data
         HAL.writeBits(MASK_LOW_DATA, data);
-        // disable enable
         HAL.clrBits(MASK_ENABLE);
-        // clear rs
         HAL.clrBits(MASK_RS);
     }
 
     // Escreve um nibble de comando/dados no LCD em série
-    private static void writeNibbleSerial(boolean rs, int data) { }
+    // we use the SerialEmitter to send the signal
+    // the bits to send are 000R NIBBLE
+    private static void writeNibbleSerial(boolean rs, int data) {
+        int value = data & MASK_LOW_DATA;   // validate set of data
+        if (rs)
+            value |= MASK_RS;               // set bit for RS
+        SerialEmitter.send(SerialEmitter.Destination.LCD, value);
+    }
 
     // Escreve um nibble de comando/dados no LCD
     private static void writeNibble(boolean rs, int data) {
@@ -57,7 +61,7 @@ public class LCD {
         writeNibble (rs, (MASK_HIGH_DATA & data) >> 4);
         // write lower nibble second
         writeNibble(rs, MASK_LOW_DATA & data);
-        Time.sleep(5);
+        Time.sleep(5); // wait time for execute command by lcd
     }
 
     // Escreve um comando no LCD

@@ -51,9 +51,9 @@
  *  |_____|_____|_____|
  *
  */
-package isel.leic.lic.g8.Keyboard;
+package isel.leic.lic.g2.Keyboard;
 
-import isel.leic.lic.g8.HAL;
+import isel.leic.lic.g2.HAL;
 import isel.leic.utils.Time;
 
 public class KBD {

@@ -5,9 +5,9 @@
  * Copyright (c) 2019 Gonçalo Lourenço
  */
 
-package isel.leic.lic.g8;
+package isel.leic.lic.g2;
 
-import isel.leic.lic.g8.Keyboard.KBD;
+import isel.leic.lic.g2.Keyboard.KBD;
 
 public class Control {
 

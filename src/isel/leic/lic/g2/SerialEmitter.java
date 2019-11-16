@@ -5,9 +5,7 @@
  */
 
 // Envia tramas para os diferentes modulos Serial Receiver
-package isel.leic.lic.g8;
-
-import isel.leic.lic.g8.HAL;
+package isel.leic.lic.g2;
 
 public class SerialEmitter {
     private final static int TX_SDX = 0x4;
