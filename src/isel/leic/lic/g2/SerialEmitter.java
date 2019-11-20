@@ -41,21 +41,18 @@ public class SerialEmitter {
     // envia uma trama para o SerialReceiver identificando o destino em addr
     // e os bits de dados em 'data'
     public static void send(Destination addr, int data) {
-        while (isBusy());
-
-        HAL.clrBits(0xff);
-
         switch (addr) {
             case LCD:
                 write_addr = MASK_LCD;
                 break;
             case DOOR_MECHANISM:
+                while (isBusy());
                 write_addr = MASK_DOOR;
                 break;
             default:
                 return;
         }
-        HAL.setBits(write_addr);
+        HAL.clrBits(write_addr);
 
         for (int i = 0; i < TX_FRAME_SIZE; i++) {
             HAL.clrBits(MASK_SCLK);
@@ -67,11 +64,27 @@ public class SerialEmitter {
 
         HAL.clrBits(MASK_DATA);
         HAL.clrBits(MASK_SCLK);
-        HAL.clrBits(write_addr);
+        HAL.setBits(write_addr);
     }
 
     // retorna true se o canal série estiver ocupado
     public static boolean isBusy() {
         return HAL.isBit(MASK_BUSY);
+    }
+
+    public static void main(String[] args) {
+        HAL.init();
+        init();
+
+        System.out.println(HAL.readBits(0xff));
+
+        // Teste 1: send LCD, data 0xf = 0111 1
+        send(Destination.LCD, 0xf);
+
+        // Teste 2: send LCD, data 0x15 = 1010 1
+        send(Destination.LCD, 0x15);
+
+        // Teste 3: send LCD, data 0x12 = 1001 0
+        send(Destination.LCD, 0x12);
     }
 }
