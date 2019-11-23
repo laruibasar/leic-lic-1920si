@@ -2,6 +2,35 @@
  * SPDX-License-Identifier: BSD-3-Clause
  * Copyright (c) 2019 Luis Bandarra <luis.bandarra@homestudio.pt>
  */
+
+/*
+ * A classe LCD permite enviar os comandos e carateres para escrever
+ * no LCD modelo HD44780U, 16x2 com dimensão de 5x8 dots/caracter
+ *
+ * O LCD deve ser inicializado e durante a inicialização devemos definir
+ * o valor de:
+ *      DL:0 interface 4 bits; DL:1 interface 8 bits
+ *          use DL:0
+ *      N:0 display de 1 linha; N:1 display de 2 linhas
+ *          use N:1
+ *      F: 0 caracter com 5x8 pontos; F:1 caracter com 5x10 pontos
+ *          use F:0
+ *
+ *
+ * Para utilizar o LCD, para apresentar carateres temos que:
+ *
+ * A coordenada de memoria DDRM associada à posição display (AC)
+ *      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+ *      40 41 42 43 44 45 46 47 48 49 4A 4B 4C 4D 4E 4F
+ * instrução: 1 (AC) (AC) (AC) (AC) (AC) (AC) (AC)
+ *
+ * No display podemos controlar
+ *      D:0 entire display off; D:1 display in
+ *      C:0 cursor off; C:1 cursor on
+ *      B:0 cursor blink off; B:1 cursor blink on
+ * instrução: 0 0 0 0 0 1 D C B
+ *
+ */
 package isel.leic.lic.g2.LCD;
 
 import isel.leic.lic.g2.HAL;
@@ -12,10 +41,12 @@ public class LCD {
     public static final int LINES = 2, COLS = 16; // Dimensão do display
 
     // Define se a interface com o LCD é série ou paralela
-    private static final boolean SERIAL_INTERFACE = false;
+    private static boolean SERIAL_INTERFACE = false;
 
     // Define comandos para o LCD
-    private static final int LCD_CLEAR = 0x1;
+    private static final int DISPLAY_CLEAR = 0x1;
+    private static final int DISPLAY_ON = 0xf;
+    private static final int DISPLAY_OFF = 0x8;
 
     // Mascara para envio do nibble em parallel
     private static int MASK_ENABLE = 0x20;      // 0010 0000
@@ -42,11 +73,10 @@ public class LCD {
     // O sinal de dados para o SerialEmitter vai ser:
     // 0 0 0 (D3) (D2) (D1) (D0) (RS) de acordo com a especificao projeto
     private static void writeNibbleSerial(boolean rs, int data) {
-        System.out.println("Dados a enviar: " + data);
         data = (data & MASK_LOW_DATA) << 1;
-        System.out.println("Shift: " + data);
         if (rs == true)
             data |= 0x1;
+
         SerialEmitter.send(SerialEmitter.Destination.LCD, data);
     }
 
@@ -86,15 +116,14 @@ public class LCD {
         writeNibble(false, 0x3);  // FS
         writeNibble(false, 0x2);  // FS
 
-        writeCMD(0x28);  // BF can be checked
-        // display on/off
-        writeCMD(0x8);  // display off
-        // entry mode set
-        writeCMD(LCD_CLEAR);  // clear
-        writeCMD(0x6);  // I/D:1 inc S:0 no shift
-        writeCMD(0xf); // display on
-
+        // Function Set, interface a 4 bits
+        writeCMD(0x28); // define N:1, F:0
+        writeCMD(DISPLAY_OFF);  // display off
+        writeCMD(DISPLAY_CLEAR);    // clear
+        writeCMD(0x6);  // define I/D:1, S:0
         System.out.println("LCD ready");
+
+        writeCMD(DISPLAY_ON); // display on
     }
 
     // Escreve um caráter na posição corrente
@@ -105,22 +134,35 @@ public class LCD {
     // Escreve uma string na posição corrente
     public static void write(String txt) {
         for (int i = 0; i < txt.length(); i++) {
-            writeDATA(txt.charAt(i));
+            write(txt.charAt(i));
         }
     }
 
     // Envia comando para posicionar cursor (‘lin’:0..LINES-1 , ‘col’:0..COLS-1)
-    public static void cursor(int lin, int col) { }
+    public static void cursor(int lin, int col) {
+        writeCMD(0x80 | (lin << 6) | col);
+    }
 
     // Envia comando para limpar o ecrã e posicionar o cursor em (0,0)
     public static void clear() {
-        writeCMD(LCD_CLEAR);
+        writeCMD(DISPLAY_CLEAR);
     }
 
     public static void main(String[] args) {
         HAL.init();
         init();
 
+        System.out.println("Teste cursor");
+
+        for (int i = 0; i < LINES; i++) {
+            for (int j = 0; j < COLS; j++) {
+                System.out.print("Teste (" + i + ", " + j + "):\t");
+                cursor(i, j);
+                System.out.println();
+            }
+        }
+
+        SERIAL_INTERFACE = true;
         write("Help me");
         Time.sleep(5000);
         clear();
