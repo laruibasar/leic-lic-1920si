@@ -12,8 +12,10 @@ public class HAL {
     private static int last_write;
 
     // Inicia a classe
+    // Apaga e inicia todos os bits a 1, deixa em active low as saidas
     public static void init() {
         clrBits(0xff);
+        setBits(0xff);
     }
 
     // Retorna true se o bit tiver o valor lógico 1

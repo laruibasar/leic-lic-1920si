@@ -15,7 +15,7 @@
  * 4 enderecamentos disponiveis para modulos de hardware.
  *
  * Do Input Port da placa verificamos o sinal de Busy do hardware para fazer uma
- * espera do envio dos dados em linha.
+ * espera do envio dos dados em linha, verificando o bit 1
  */
 
 // Envia tramas para os diferentes modulos Serial Receiver
@@ -40,13 +40,14 @@ public class SerialEmitter {
 
     // envia uma trama para o SerialReceiver identificando o destino em addr
     // e os bits de dados em 'data'
+    // o método faz o envio, sem validar se está busy, para isso esta disponivel
+    // o método isBusy que deve ser utilizado pelas classes antes de fazer a chamada
     public static void send(Destination addr, int data) {
         switch (addr) {
             case LCD:
                 write_addr = MASK_LCD;
                 break;
             case DOOR_MECHANISM:
-                while (isBusy());
                 write_addr = MASK_DOOR;
                 break;
             default:
@@ -70,21 +71,5 @@ public class SerialEmitter {
     // retorna true se o canal série estiver ocupado
     public static boolean isBusy() {
         return HAL.isBit(MASK_BUSY);
-    }
-
-    public static void main(String[] args) {
-        HAL.init();
-        init();
-
-        System.out.println(HAL.readBits(0xff));
-
-        // Teste 1: send LCD, data 0xf = 0111 1
-        send(Destination.LCD, 0xf);
-
-        // Teste 2: send LCD, data 0x15 = 1010 1
-        send(Destination.LCD, 0x15);
-
-        // Teste 3: send LCD, data 0x12 = 1001 0
-        send(Destination.LCD, 0x12);
     }
 }

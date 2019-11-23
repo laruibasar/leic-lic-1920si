@@ -18,12 +18,10 @@ public class LCD {
     private static final int LCD_CLEAR = 0x1;
 
     // Mascara para envio do nibble em parallel
-    private static int MASK_ENABLE = 0x20;  // 0010 0000
-    private static int MASK_PARALLEL_RS = 0x10;      // 000R 0000
+    private static int MASK_ENABLE = 0x20;      // 0010 0000
+    private static int MASK_PARALLEL_RS = 0x10; // 000R 0000
     private static int MASK_LOW_DATA = 0x0f;    // 0000 1111
-    private static int MASK_HIGH_DATA = 0xf0;    // 0000 1111
-
-    private static boolean DEBUG = true;
+    private static int MASK_HIGH_DATA = 0xf0;   // 1111 0000
 
     // Escreve um nibble de comando/dados no LCD em paralelo
     // O sinal para a HAL vai ser: 0 0 E (RS) NIBBLE
@@ -126,7 +124,7 @@ public class LCD {
         write("Help me");
         Time.sleep(5000);
         clear();
-        write("SLB Campeoes");
+        write("Working");
         clear();
         Time.sleep(5000);
     }
