@@ -35,6 +35,7 @@ public class SerialEmitter {
 
     // inicia a classe
     public static void init() {
+        HAL.init();
         write_addr = 0;
         HAL.setBits(MASK_LCD);
         HAL.setBits(MASK_DOOR);
@@ -77,7 +78,6 @@ public class SerialEmitter {
     }
 
     public static void main(String[] args) {
-        HAL.init();
         init();
 
         send(Destination.LCD, 0xf);  // 0000 1111

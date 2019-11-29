@@ -107,6 +107,12 @@ public class LCD {
 
     // Envia a sequência de iniciação para a comunicação a 4 bits
     public static void init() {
+        // inicializar camada mais baixa
+        if (SERIAL_INTERFACE)
+            SerialEmitter.init();
+        else
+            HAL.init();
+
         System.out.print("Initialization LCD...\n");
         Time.sleep(15); // 1 standby
         writeNibble(false, 0x3);  // FS
@@ -150,9 +156,6 @@ public class LCD {
 
     public static void main(String[] args) {
         SERIAL_INTERFACE = true;
-
-        HAL.init();
-        SerialEmitter.init();
         init();
 
         write('A');
