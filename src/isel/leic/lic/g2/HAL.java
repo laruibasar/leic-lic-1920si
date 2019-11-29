@@ -15,12 +15,11 @@ public class HAL {
     // Apaga e inicia todos os bits a 1, deixa em active low as saidas
     public static void init() {
         clrBits(0xff);
-        setBits(0xff);
     }
 
     // Retorna true se o bit tiver o valor lógico 1
     public static boolean isBit(int mask) {
-        return (UsbPort.in() & mask) != 0;
+        return readBits(mask) != 0;
     }
 
     // Retorna os valores dos bits representados por mask presentes no UsbPort

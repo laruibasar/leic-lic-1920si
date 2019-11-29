@@ -36,6 +36,8 @@ public class SerialEmitter {
     // inicia a classe
     public static void init() {
         write_addr = 0;
+        HAL.setBits(MASK_LCD);
+        HAL.setBits(MASK_DOOR);
     }
 
     // envia uma trama para o SerialReceiver identificando o destino em addr
@@ -69,7 +71,35 @@ public class SerialEmitter {
     }
 
     // retorna true se o canal série estiver ocupado
+    // se ocupado, valor 1
     public static boolean isBusy() {
         return HAL.isBit(MASK_BUSY);
+    }
+
+    public static void main(String[] args) {
+        HAL.init();
+        init();
+
+        send(Destination.LCD, 0xf);  // 0000 1111
+        send(Destination.LCD, 0x01); // 0000 0001
+        send(Destination.LCD, 0x02); // 0000 0010
+        send(Destination.LCD, 0x04); // 0000 0100
+        send(Destination.LCD, 0x08); // 0000 1000
+        send(Destination.LCD, 0xf);  // 0000 1111
+        send(Destination.LCD, 0x11);
+        send(Destination.LCD, 0x12);
+        send(Destination.LCD, 0x14);
+        send(Destination.LCD, 0x18);
+        send(Destination.LCD, 0x1f);
+        send(Destination.DOOR_MECHANISM, 0x01);
+        send(Destination.DOOR_MECHANISM, 0x02);
+        send(Destination.DOOR_MECHANISM, 0x04);
+        send(Destination.DOOR_MECHANISM, 0x08);
+        send(Destination.DOOR_MECHANISM, 0xf);
+        send(Destination.DOOR_MECHANISM, 0x11);
+        send(Destination.DOOR_MECHANISM, 0x12);
+        send(Destination.DOOR_MECHANISM, 0x14);
+        send(Destination.DOOR_MECHANISM, 0x18);
+        send(Destination.DOOR_MECHANISM, 0x1f);
     }
 }

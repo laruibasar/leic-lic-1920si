@@ -149,25 +149,20 @@ public class LCD {
     }
 
     public static void main(String[] args) {
+        SERIAL_INTERFACE = true;
+
         HAL.init();
+        SerialEmitter.init();
         init();
 
-        System.out.println("Teste cursor");
-
-        for (int i = 0; i < LINES; i++) {
-            for (int j = 0; j < COLS; j++) {
-                System.out.print("Teste (" + i + ", " + j + "):\t");
-                cursor(i, j);
-                System.out.println();
-            }
-        }
-
-        SERIAL_INTERFACE = true;
+        write('A');
+        write('1');
+        clear();
         write("Help me");
-        Time.sleep(5000);
         clear();
         write("Working");
         clear();
-        Time.sleep(5000);
+
+        writeCMD(DISPLAY_OFF);
     }
 }
