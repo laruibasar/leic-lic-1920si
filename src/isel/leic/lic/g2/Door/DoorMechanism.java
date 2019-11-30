@@ -4,7 +4,6 @@
  */
 package isel.leic.lic.g2.Door;
 
-import isel.leic.lic.g2.HAL;
 import isel.leic.lic.g2.SerialEmitter;
 
 public class DoorMechanism {    // Controla o estado do mecanismo de abertura da porta
@@ -13,7 +12,10 @@ public class DoorMechanism {    // Controla o estado do mecanismo de abertura da
     private static final int DOOR_CLOSE = 0;
 
     // Inicia a classe, estabelecendo os valores iniciais
-    public static void init() {}
+    public static void init() {
+        SerialEmitter.init();
+        close(1);
+    }
 
     // Envia comando para abrir a porta, com o parametro de velocidade
     // O sinal de dados para o SerialEmitter vai ser:
@@ -42,8 +44,6 @@ public class DoorMechanism {    // Controla o estado do mecanismo de abertura da
     }
 
     public static void main(String[] args) {
-        HAL.init();
-        SerialEmitter.init();
         init();
 
         System.out.println("Opening...");

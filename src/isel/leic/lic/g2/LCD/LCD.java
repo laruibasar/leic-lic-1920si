@@ -154,6 +154,11 @@ public class LCD {
         writeCMD(DISPLAY_CLEAR);
     }
 
+    // Define o valor do interface
+    public static void setSerialInterface(boolean set) {
+        SERIAL_INTERFACE = set;
+    }
+
     public static void main(String[] args) {
         SERIAL_INTERFACE = true;
         init();
