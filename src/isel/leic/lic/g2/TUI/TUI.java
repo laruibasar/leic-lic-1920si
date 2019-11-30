@@ -65,7 +65,7 @@ public class TUI {
                 value = -1;
                 break;
             } else if (c == '*') {
-                // the danger of recursivity
+                // there'll be dragons (the danger of recursivity)
                 value = readInteger(ndigits, obsfucate, obs, timeout, lin, col);
                 break;
             } else if (c == '#') {

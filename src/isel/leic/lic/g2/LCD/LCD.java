@@ -146,6 +146,11 @@ public class LCD {
 
     // Envia comando para posicionar cursor (‘lin’:0..LINES-1 , ‘col’:0..COLS-1)
     public static void cursor(int lin, int col) {
+        if (lin < 0 || lin > (LINES - 1))
+            return;
+        if (col < 0 || col > (COLS - 1))
+            return;
+
         writeCMD(0x80 | (lin << 6) | col);
     }
 
@@ -155,8 +160,8 @@ public class LCD {
     }
 
     // Define o valor do interface
-    public static void setSerialInterface(boolean set) {
-        SERIAL_INTERFACE = set;
+    public static void setSerialInterface(boolean setInterface) {
+        SERIAL_INTERFACE = setInterface;
     }
 
     public static void main(String[] args) {
