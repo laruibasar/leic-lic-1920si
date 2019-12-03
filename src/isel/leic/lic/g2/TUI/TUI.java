@@ -15,20 +15,21 @@ package isel.leic.lic.g2.TUI;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import isel.leic.lic.g2.LCD.LCD;
-import isel.leic.lic.g2.Keyboard.KBD;
+//import isel.leic.lic.g2.LCD.LCD;
+import isel.leic.lic.g2.Wrapper.LCD;
+//import isel.leic.lic.g2.Keyboard.KBD;
+import isel.leic.lic.g2.Wrapper.KBD;
+import isel.leic.utils.Time;
 
 public class TUI {
-    private static final String USER = "UIN:";
-    private static final int USER_DIGITS = 3;
-    private static final String PIN = "PIN:";
-    private static final int PIN_DIGITS = 4;
+    private static final int ETIMEOUT = -1;
+    private static final int EQUIT = -2;
 
     // Inicia a classe, estabelecendo os valores iniciais
     public static void init() {
         KBD.init();
-        LCD.init();
         LCD.setSerialInterface(true);
+        LCD.init();
     }
 
     // obtencao de input, preparando mensagem de introducao
@@ -49,6 +50,7 @@ public class TUI {
 
     // leitura de um numero, controlando a apresentacao do input do utilizador
     // retorno -1 significa utilizador ultrapassou o timeout e sistema deve voltar ao estado idle
+    // retorno -2 significa utilizador apagou o input
     public static int readInteger(int ndigits, boolean obsfucate, char obs, long timeout, int lin, int col) {
         int value = 0;
         if (obsfucate) {
@@ -57,23 +59,31 @@ public class TUI {
                 msg = msg + obs;
             }
             showMessage(msg, lin, col);
+            LCD.cursor(lin, col);
         }
 
-        for (int i = 0; i < ndigits; i++) {
+        int i = 0;
+        do {
             char c = KBD.waitKey(timeout);
-            if (c == 0) {
-                value = -1;
-                break;
-            } else if (c == '*') {
-                // there'll be dragons (the danger of recursivity)
-                value = readInteger(ndigits, obsfucate, obs, timeout, lin, col);
-                break;
-            } else if (c == '#') {
-                continue;
+
+            switch (c) {
+                case 0:
+                    value = ETIMEOUT;
+                    i = ndigits;
+                    break;
+                case '*':
+                    value = EQUIT;
+                    i = ndigits;
+                    break;
+                case '#':
+                    continue;
+                default:
+                    value = (value * 10) + c - '0';
+                    showCharacter(c, lin, col + i);
+                    i++;
+                    break;
             }
-            value = (value * 10) + c - '0';
-            showCharacter(c, lin, col + i);
-        }
+        } while (i < ndigits);
 
         return value;
     }
@@ -104,6 +114,10 @@ public class TUI {
         init();
 
         System.out.println("Testing TUI Class");
+        String USER = "UIN:";
+        int USER_DIGITS = 3;
+        String PIN = "PIN:";
+        int PIN_DIGITS = 4;
 
         System.out.println("Teste readInteger: ");
         System.out.println("1 - Ler input: lin 1, col 1");
@@ -136,6 +150,7 @@ public class TUI {
 
         System.out.println("5 - Teste apresentacao tempo");
         showCurrentDateTime(0, 0);
+        Time.sleep(5000);
 
         System.out.println();
         System.out.println("6 - Teste limpar ecra");
