@@ -6,6 +6,8 @@
 package isel.leic.lic.g2.User;
 
 import isel.leic.lic.g2.FileAccess;
+import isel.leic.lic.g2.Log.Log;
+
 import java.util.Scanner;
 
 public class Users {
@@ -21,7 +23,18 @@ public class Users {
 
     private static void loadUsers() {
         while (sc.hasNextLine()) {
-            System.out.println(sc.next());
+            int uin = sc.nextInt();
+            int pin = sc.nextInt();
+            String name = sc.next();
+            String message = sc.next();
+            sc.next(); // clear newline
+            System.out.println(uin + " " + pin + " " + name + " " + message);
         }
+    }
+
+    public static void main(String[] args) {
+        init();
+
+        System.out.println("Teste Users");
     }
 }
