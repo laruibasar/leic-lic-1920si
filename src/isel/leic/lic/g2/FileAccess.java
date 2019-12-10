@@ -26,10 +26,20 @@ public class FileAccess {
         return null;
     }
 
-    public void writeLine(String str) {
+    public void writeln(String str) {
         try {
             Writer out = new FileWriter(file, APPEND);
             out.write(str + "\n");
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void clear() {
+        try {
+            Writer out = new FileWriter(file, false);
+            out.write("");
             out.close();
         } catch (IOException e) {
             e.printStackTrace();

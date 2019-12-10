@@ -20,7 +20,7 @@ public class Log {
 
     public void logger(String msg) {
         String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
-        log.writeLine(time + " -> " + msg);
+        log.writeln(time + " -> " + msg);
     }
 
     public static void main(String[] args) {
