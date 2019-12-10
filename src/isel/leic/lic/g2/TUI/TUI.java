@@ -15,10 +15,8 @@ package isel.leic.lic.g2.TUI;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-//import isel.leic.lic.g2.LCD.LCD;
-import isel.leic.lic.g2.Wrapper.LCD;
-//import isel.leic.lic.g2.Keyboard.KBD;
-import isel.leic.lic.g2.Wrapper.KBD;
+import isel.leic.lic.g2.LCD.LCD;
+import isel.leic.lic.g2.Keyboard.KBD;
 import isel.leic.utils.Time;
 
 public class TUI {

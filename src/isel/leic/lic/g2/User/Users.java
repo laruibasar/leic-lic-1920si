@@ -37,7 +37,7 @@ public class Users {
     }
 
     public static void removeUser(User u) {
-        list.
+        // code
     }
 
     public static void main(String[] args) {

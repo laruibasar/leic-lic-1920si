@@ -21,33 +21,32 @@
  * definimos para as várias máscaras os seguintes bits:
  *   - Dval (VAL): 5bit - 0x10
  *   - Data (DATA): primeiros 4 bits - 0xf
- *   - ACK (ACK): 1bit - 0x01
+ *   - ACK (ACK): 1bit - 0x80
  *
- *       VAL    D A T A
- *     0 0 0 1  1 1 1 1
- *
- *     0 0 0 0  0 0 0 1
- *        ACK
+ *          VAL D A T A
+ * In  0 0 0 1  1 1 1 1
+ * Out 1 0 0 0  0 0 0 0
+ *    ACK
  *
  * Apos receção do valor do teclado, é necessário mapear o valor para o carater
  * do enviado:
  *   _________________
  *  |     |     |     |
- *  |  1  |  2  |  3  |
+ *  |  1  |  2  |  3  | r3
  *  |     |     |     |
  *  |-----------------|
  *  |     |     |     |
- *  |  4  |  5  |  6  |
+ *  |  4  |  5  |  6  | r2
  *  |     |     |     |
  *  | ----------------|
  *  |     |     |     |
- *  |  7  |  8  |  9  |
+ *  |  7  |  8  |  9  | r1
  *  |     |     |     |
  *  |-----------------|
  *  |     |     |     |
- *  |  *  |  0  |  #  |
+ *  |  *  |  0  |  #  | r0
  *  |_____|_____|_____|
- *
+ *    c0    c1    c2
  */
 package isel.leic.lic.g2.Keyboard;
 
@@ -57,7 +56,7 @@ import isel.leic.utils.Time;
 public class KBD {
     private static int VAL = 0x10;
     private static int DATA = 0xf;
-    private static int ACK = 0x1;
+    private static int ACK = 0x80;
 
     public static final char NONE = 0;
     public static final char[][] MAP_CHAR = {
@@ -98,6 +97,6 @@ public class KBD {
     }
 
     private static char mapKeyToChar(int k) {
-        return MAP_CHAR[k>>2][k & 0x3];
+        return MAP_CHAR[k >> 2][k & 0x3];
     }
 }

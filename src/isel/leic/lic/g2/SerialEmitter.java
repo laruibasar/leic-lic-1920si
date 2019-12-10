@@ -11,11 +11,18 @@
  * esquema de acordo com os bits disponiveis:
  * bit: 8   7   6   5   4   3   2    1
  *      0   0   0   0 DOOR LCD SCLK SDX
+ *
+ *       7  6  5  4   3   2   1    0
+ *         BSY
+ * In  : 0  1  0  0   0   0   0    0
+ * Out : 0  0  0  0   0   0   0    0
+ *                  DOOR LCD SCLK SDX
+ *
  * Este arranjo permite-nos, apenas com o hardware atual, ter ainda disponivel mais
  * 4 enderecamentos disponiveis para modulos de hardware.
  *
  * Do Input Port da placa verificamos o sinal de Busy do hardware para fazer uma
- * espera do envio dos dados em linha, verificando o bit 1
+ * espera do envio dos dados em linha
  */
 
 // Envia tramas para os diferentes modulos Serial Receiver
@@ -28,7 +35,7 @@ public class SerialEmitter {
     private final static int MASK_SCLK = 0x02;
     private final static int MASK_LCD  = 0x04;
     private final static int MASK_DOOR = 0x08;
-    private final static int MASK_BUSY = 0x01;
+    private final static int MASK_BUSY = 0x40;
     private final static int TX_FRAME_SIZE = 5;
 
     private static int write_addr;
