@@ -6,35 +6,46 @@
 package isel.leic.lic.g2.User;
 
 import isel.leic.lic.g2.FileAccess;
-import isel.leic.lic.g2.Log.Log;
 
+import java.util.LinkedList;
 import java.util.Scanner;
 
 public class Users {
     private static final String USERS_FILE = "users.txt";
+    private static final int MAX_USERS = 1000;
+    private static LinkedList<User> list;
     private static FileAccess users;
     private static Scanner sc;
 
     public static void init() {
         users = new FileAccess(USERS_FILE);
-        sc = users.read().useDelimiter(";");
+        sc = users.read();
+        list = new LinkedList<>();
         loadUsers();
     }
 
     private static void loadUsers() {
         while (sc.hasNextLine()) {
-            int uin = sc.nextInt();
-            int pin = sc.nextInt();
-            String name = sc.next();
-            String message = sc.next();
-            sc.next(); // clear newline
-            System.out.println(uin + " " + pin + " " + name + " " + message);
+            String str = sc.nextLine();
+            User u = new User(str);
+            list.add(u);
         }
+    }
+
+    public static void addUser(User u) {
+        list.add(u);
+    }
+
+    public static void removeUser(User u) {
+        list.
     }
 
     public static void main(String[] args) {
         init();
 
         System.out.println("Teste Users");
+        for (User u : list) {
+            System.out.println(u.toString());
+        }
     }
 }
