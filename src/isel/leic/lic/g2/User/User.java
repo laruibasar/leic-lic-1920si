@@ -49,6 +49,10 @@ public class User {
         return uin;
     }
 
+    public String save() {
+        return toString();
+    }
+
     @Override
     public String toString() {
         String msg = (message.length() > 0) ? message + separator : "";

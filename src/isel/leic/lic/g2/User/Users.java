@@ -24,6 +24,7 @@ public class Users {
         loadUsers();
     }
 
+    // carrega em memória os utilizadores a partir de ficheiro
     private static void loadUsers() {
         while (sc.hasNextLine()) {
             String str = sc.nextLine();
@@ -32,26 +33,40 @@ public class Users {
         }
     }
 
+    // guarda os utilizadores para ficheiro, reescrevendo todos os utilizadores
     public static void saveUsers() {
         users.clear();
 
         for (User u : list)
-            users.writeln(u.toString());
+            users.writeln(u.save());
     }
 
-    public static void addUser(User u) {
-        int idx = getAvailableUIN();
-        list.add(idx, u);
+    // adiciona um utilizador atraves de uma instancia de User
+    public static boolean addUser(User u) {
+        if (count() < MAX_USERS) {
+            int idx = getAvailableUIN();
+            list.add(idx, u);
+            return true;
+        }
+        return false;
     }
 
+    // remove um utilizador, tendo uma instacia de User
     public static boolean removeUser(User u) {
         return list.remove(u);
     }
 
+    // remove um utilizador, conhecendo um UIN
     public static boolean removeUser(int uin) {
-        return list.remove(searchUser(uin));
+        return removeUser(searchUser(uin));
     }
 
+    // retorna o numero atual de utilizadores
+    public static int count() {
+        return list.size();
+    }
+
+    // pesquisa um utilizador na lista
     public static User searchUser(int uin) {
         for (User u : list) {
             if (u.getUID() == uin)
@@ -60,6 +75,7 @@ public class Users {
         return null;
     }
 
+    // obtem o UIN mas baixo que esteja livre
     public static int getAvailableUIN() {
         int available = 0;
         for (User u : list) {
