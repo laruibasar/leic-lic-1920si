@@ -3,12 +3,14 @@
  * Copyright (c) 2019 Luis Bandarra <luis.bandarra@homestudio.pt>
  */
 
+/*
+ * Classe que permite gerir a informacao de todos os utilizadores do sistema
+ */
 package isel.leic.lic.g2.User;
-
-import isel.leic.lic.g2.FileAccess;
 
 import java.util.LinkedList;
 import java.util.Scanner;
+import isel.leic.lic.g2.FileAccess;
 
 public class Users {
     private static final String USERS_FILE = "users.txt";
