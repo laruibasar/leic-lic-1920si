@@ -76,7 +76,7 @@ public class User {
 
     @Override
     public String toString() {
-        return String.valueOf(uin) + separator + name;
+        return String.valueOf(uin) + ":" + name;
     }
 
     public static void main(String[] args) {
