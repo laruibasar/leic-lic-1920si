@@ -69,12 +69,15 @@ public class KBD {
     public static final char[] MAP_CHAR_SIMUL = {'1', '2', '3', '4', '5', '6', '7', '8', '9', '*', '0', '#'};
 
     // inicia a classe
+    // verificando se o sistema esta em modo simulacao ou hardware
+    // e definindo o mapeamento do teclado a utilizar
     public static void init() {
         HAL.init();
         String p = Utils.getProperties("simulation");
 
-        // mecanismo para ler do ficheiro de propriedades USB_PORT
-        simul = p.equalsIgnoreCase("true") ? true : false;
+        if (p != null)
+            simul = p.equalsIgnoreCase("true");
+
         map = (simul) ? MAP_CHAR_SIMUL : MAP_CHAR;
     }
 
