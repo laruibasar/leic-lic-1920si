@@ -13,7 +13,7 @@ package isel.leic.lic.g2.User;
 import java.util.Scanner;
 
 public class User {
-    private final char separator = ';';
+    private final char SEPARATOR = ';';
     private String name;
     private int uin;
     private String pin;
@@ -29,7 +29,7 @@ public class User {
 
     // construtor passando uma string, fazendo a sua separacao
     public User(String user) {
-        String[] outStr = user.split(";",0);
+        String[] outStr = user.split(String.valueOf(SEPARATOR),0);
         uin = Integer.parseInt(outStr[0]);
         pin = outStr[1];
         name = outStr[2];
@@ -57,10 +57,6 @@ public class User {
         return message;
     }
 
-    public void removeMessage() {
-        message = "";
-    }
-
     public void changeMessage(String str) {
         message = str;
     }
@@ -74,13 +70,13 @@ public class User {
     }
 
     public String save() {
-        String msg = (message.length() > 0) ? message + separator : "";
-        return String.valueOf(uin) + separator + String.valueOf(pin) + separator + name + separator + msg;
+        String msg = (message.length() > 0) ? message + SEPARATOR : "";
+        return String.valueOf(uin) + SEPARATOR + pin + SEPARATOR + name + SEPARATOR + msg;
     }
 
     @Override
     public String toString() {
-        return String.valueOf(uin) + ":" + name;
+        return uin + ":" + name;
     }
 
     public static void main(String[] args) {
@@ -101,13 +97,13 @@ public class User {
         System.out.println("2 - Comparar pin com pin errado");
         System.out.println("Insira o pin incorreto e carregue enter:");
         int checkPin = Integer.parseInt(sc.nextLine());
-        String check = u.checkPin(checkPin) == true ? "correto" : "errado";
+        String check = u.checkPin(checkPin) ? "correto" : "errado";
         System.out.println("pin = " + check);
 
         System.out.println("3 - Comparar pin com pin correto");
         System.out.println("Insira o pin incorreto e carregue enter:");
         checkPin = Integer.parseInt(sc.nextLine());
-        check = u.checkPin(checkPin) == true ? "correto" : "errado";
+        check = u.checkPin(checkPin) ? "correto" : "errado";
         System.out.println("pin = " + check);
 
         System.out.println("4 - Alterar o pin");
