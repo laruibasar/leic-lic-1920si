@@ -69,6 +69,10 @@ public class User {
         return uin;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public String save() {
         String msg = (message.length() > 0) ? message + separator : "";
         return String.valueOf(uin) + separator + String.valueOf(pin) + separator + name + separator + msg;
