@@ -3,6 +3,10 @@
  * Copyright (c) 2019 Luis Bandarra <luis.bandarra@homestudio.pt>
  */
 
+/*
+ * Classe para obter o acesso a ficheiros do sistema e facilitar
+ * a execucao de leituras e escritas
+ */
 package isel.leic.lic.g2;
 
 import java.io.*;
@@ -12,10 +16,12 @@ public class FileAccess {
     private final boolean APPEND = true;
     private File file;
 
+    // construtor de instancia
     public FileAccess(String file) {
         this.file = new File(file);
     }
 
+    // devolve um handler para o ficheiro que se pretende ler
     public Scanner read() {
         try {
             InputStream in = new FileInputStream(file);
@@ -26,6 +32,7 @@ public class FileAccess {
         return null;
     }
 
+    // permite a escrita de texto para o ficheiro guardado na instancia
     public void writeln(String str) {
         try {
             Writer out = new FileWriter(file, APPEND);
@@ -36,10 +43,10 @@ public class FileAccess {
         }
     }
 
+    // coloca o ficheiro vazio para escrita completa
     public void clear() {
         try {
-            Writer out = new FileWriter(file, false);
-            out.write("");
+            Writer out = new FileWriter(file);
             out.close();
         } catch (IOException e) {
             e.printStackTrace();
