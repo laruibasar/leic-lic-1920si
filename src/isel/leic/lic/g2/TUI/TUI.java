@@ -20,8 +20,10 @@ import isel.leic.lic.g2.Keyboard.KBD;
 import isel.leic.utils.Time;
 
 public class TUI {
+    // retorno ETIMEOUT significa utilizador ultrapassou o timeout e sistema deve voltar ao estado idle
     private static final int ETIMEOUT = -1;
-    private static final int EQUIT = -2;
+    // retorno EABORT significa utilizador cancelou o comando
+    private static final int EABORT = -2;
 
     // Inicia a classe, estabelecendo os valores iniciais
     public static void init() {
@@ -47,20 +49,12 @@ public class TUI {
     }
 
     // leitura de um numero, controlando a apresentacao do input do utilizador
-    // retorno -1 significa utilizador ultrapassou o timeout e sistema deve voltar ao estado idle
-    // retorno -2 significa utilizador apagou o input
+
     public static int readInteger(int ndigits, boolean obsfucate, char obs, long timeout, int lin, int col) {
         int value = 0;
-        if (obsfucate) {
-            String msg = "";
-            for (int i = 0; i < ndigits; i++) {
-                msg = msg + obs;
-            }
-            showMessage(msg, lin, col);
-            LCD.cursor(lin, col);
-        }
-
         int i = 0;
+        showInputRequest(ndigits, obsfucate, obs, lin, col);
+
         do {
             char c = KBD.waitKey(timeout);
 
@@ -70,8 +64,14 @@ public class TUI {
                     i = ndigits;
                     break;
                 case '*':
-                    value = EQUIT;
-                    i = ndigits;
+                    if (i > 0) {
+                        value = 0;
+                        i = 0;
+                        showInputRequest(ndigits, obsfucate, obs, lin, col);
+                    } else {
+                        value = EABORT;
+                        i = ndigits;
+                    }
                     break;
                 case '#':
                     continue;
@@ -89,6 +89,17 @@ public class TUI {
     // leitura de um carater
     public static char readInputKeyboard() {
         return KBD.getKey();
+    }
+
+    private static void showInputRequest(int ndigits, boolean obsfucate, char obs, int lin, int col) {
+        if (obsfucate) {
+            String msg = "";
+            for (int i = 0; i < ndigits; i++) {
+                msg = msg + obs;
+            }
+            showMessage(msg, lin, col);
+            LCD.cursor(lin, col);
+        }
     }
 
     // apresentacao de mensagem
