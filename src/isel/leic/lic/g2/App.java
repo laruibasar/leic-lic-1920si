@@ -19,6 +19,7 @@ public class App {
     private static final char PIN_OBS = '*';
     private static final long TIMEOUT = 5000;
 
+    // inicializacao da classe
     public static void init() {
         Log.init();
         Users.init();
@@ -51,6 +52,7 @@ public class App {
         System.exit(0);
     }
 
+    // guarda para ficheiro os utilizadores em memoria
     private static void saveAppState() {
         TUI.showCenterMessage("Shutdown...", 1);
         Users.saveUsers();
@@ -58,6 +60,7 @@ public class App {
         TUI.clearScreen();
     }
 
+    // pede dados de utilizador e pin
     private static void getAccessUser() {
         User u;
 
@@ -81,6 +84,7 @@ public class App {
         TUI.clearLine(1);
     }
 
+    // permite efetuar accoes a utilizadores autenticados
     private static void authenticatedMode(User user) {
         long time = Time.getTimeInMillis() + TIMEOUT;
         char key = 0;
@@ -97,15 +101,10 @@ public class App {
             if (askChangePin())
                 changePin(user);
 
-        TUI.clearScreen();
-        TUI.showCenterMessage(user.getName(), 0);
-        DoorMechanism.open(1);
-        TUI.showCenterMessage("Door opened", 1);
-        Time.sleep(TIMEOUT);
-        TUI.showCenterMessage("Closing door...", 1);
-        DoorMechanism.close(1);
+        doorAction(user.getName());
     }
 
+    // verifica se o utilizador deseja mudar o pin
     private static boolean askChangePin() {
         long time = Time.getTimeInMillis() + TIMEOUT;
         char key = 0;
@@ -118,12 +117,10 @@ public class App {
             key = TUI.readInputKeyboard();
         }
 
-        if (key == '*')
-            return true;
-        else
-            return false;
+        return key == '*';
     }
 
+    // mudar o pin do utilizador
     private static void changePin(User user) {
         TUI.clearScreen();
         TUI.showCenterMessage("Insert New", 0);
@@ -133,6 +130,7 @@ public class App {
 
         TUI.clearScreen();
         TUI.showCenterMessage("PIN has been", 0);
+
         if (newPin < 0 || newPin != confirmPin) {
             TUI.showCenterMessage("held", 1);
         } else {
@@ -140,5 +138,16 @@ public class App {
             TUI.showCenterMessage("changed", 1);
         }
         Time.sleep(TIMEOUT);
+    }
+
+    // atua a abertura e fecho da porta
+    private static void doorAction(String user) {
+        TUI.clearScreen();
+        TUI.showCenterMessage(user, 0);
+        DoorMechanism.open(1);
+        TUI.showCenterMessage("Door opened", 1);
+        Time.sleep(TIMEOUT);
+        TUI.showCenterMessage("Closing door...", 1);
+        DoorMechanism.close(1);
     }
 }
