@@ -19,55 +19,63 @@
  *
  * O sinal recebido na camada HAL tem a dimensão de 1 byte (8 bits), pelo que
  * definimos para as várias máscaras os seguintes bits:
- *   - Dval (VAL): 5bit - 0x10
- *   - Data (DATA): primeiros 4 bits - 0xf
- *   - ACK (ACK): 1bit - 0x80
+ *   - Dval (VAL):  0x10
+ *   - Data (DATA): 0x0f
+ *   - ACK (ACK):   0x80
  *
- *          VAL D A T A
- * In  0 0 0 1  1 1 1 1
- * Out 1 0 0 0  0 0 0 0
- *    ACK
+ *       7    6   5    4      3    2    1   0
+ * In    0    0   0  (DVAL) (D3) (D2) (D1) (D0)
+ * Out (ACK)  0   0    0      0    0    0   0
+ *
  *
  * Apos receção do valor do teclado, é necessário mapear o valor para o carater
  * do enviado:
- *   _________________
- *  |     |     |     |
- *  |  1  |  2  |  3  | r3
- *  |     |     |     |
- *  |-----------------|
- *  |     |     |     |
- *  |  4  |  5  |  6  | r2
- *  |     |     |     |
- *  | ----------------|
- *  |     |     |     |
- *  |  7  |  8  |  9  | r1
- *  |     |     |     |
- *  |-----------------|
- *  |     |     |     |
- *  |  *  |  0  |  #  | r0
- *  |_____|_____|_____|
- *    c0    c1    c2
+ *   ____________________
+ *  |      |      |      |
+ *  |  1   |  2   |  3   | r3
+ *  | 0000 | 0100 | 1000 |
+ *  |--------------------|
+ *  |      |      |      |
+ *  |  4   |  5   |  6   | r2
+ *  | 0001 | 0101 | 1001 |
+ *  |--------------------|
+ *  |      |      |      |
+ *  |  7   |  8   |  9   | r1
+ *  | 0010 | 0110 | 1010 |
+ *  |--------------------|
+ *  |      |      |      |
+ *  |  *   |  0   |  #   | r0
+ *  | 0011 | 0111 | 1011 |
+ *  |______|______|______|
+ *     c0     c1     c2
  */
 package isel.leic.lic.g2.Keyboard;
 
 import isel.leic.lic.g2.HAL;
+import isel.leic.lic.g2.Utils;
 import isel.leic.utils.Time;
 
 public class KBD {
     private static int VAL = 0x10;
     private static int DATA = 0xf;
     private static int ACK = 0x80;
+    private static boolean simul;
+    private static char[] map;
 
     public static final char NONE = 0;
-    public static final char[][] MAP_CHAR = {
-            {'1', '4', '7', '*'},
-            {'2', '5', '8', '0'},
-            {'3', '6', '9', '#'}
-    };
+    // mapeamento mais simple
+    public static final char[] MAP_CHAR = {'1', '4', '7', '*', '2', '5', '8', '0', '3', '6', '9', '#'};
+    // ajuste ao simulador
+    public static final char[] MAP_CHAR_SIMUL = {'1', '2', '3', '4', '5', '6', '7', '8', '9', '*', '0', '#'};
 
     // inicia a classe
     public static void init() {
         HAL.init();
+        String p = Utils.getProperties("simulation");
+
+        // mecanismo para ler do ficheiro de propriedades USB_PORT
+        simul = p.equalsIgnoreCase("true") ? true : false;
+        map = (simul) ? MAP_CHAR_SIMUL : MAP_CHAR;
     }
 
     // retorna de imediato a tecla premida ou NONE se não tecla premida.
@@ -75,12 +83,13 @@ public class KBD {
         char key = NONE;
 
         if (HAL.isBit(VAL)) {
-            key = mapKeyToChar(HAL.readBits(DATA));
+            key = map[HAL.readBits(DATA)];
             HAL.setBits(ACK);
             while (HAL.isBit(VAL));
 
             HAL.clrBits(ACK);
         }
+
         return key;
     }
 
@@ -90,13 +99,9 @@ public class KBD {
         char key = NONE;
         long time = Time.getTimeInMillis() + timeout;
 
-        while ((Time.getTimeInMillis() < time) || (key == NONE)) {
+        while ((Time.getTimeInMillis() < time) && (key == NONE))
             key = getKey();
-        }
-        return key;
-    }
 
-    private static char mapKeyToChar(int k) {
-        return MAP_CHAR[k >> 2][k & 0x3];
+        return key;
     }
 }
