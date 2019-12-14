@@ -108,6 +108,15 @@ public class TUI {
         LCD.write(msg);
     }
 
+    // apresentacao de mensagem, com indicacao de centrada
+    public static void showMessage(String msg, int lin, boolean center) {
+        int col = 0;
+        if (center)
+            col = (LCD.COLS - msg.length()) / 2;
+
+        showMessage(msg, lin, col);
+    }
+
     // apresentacao de caracter
     public static void showCharacter(char c, int lin, int col) {
         LCD.cursor(lin, col);
