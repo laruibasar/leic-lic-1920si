@@ -27,23 +27,21 @@ public class DoorMechanism {
     // Inicia a classe, estabelecendo os valores iniciais
     public static void init() {
         SerialEmitter.init();
-        close(1);
     }
 
     // Envia comando para abrir a porta, com o parametro de velocidade
-    // O sinal de dados para o SerialEmitter vai ser:
-    // 0 0 0 (V3) (V2) (V1) (V0) (OC) de acordo com a especificao projeto
     public static void open(int velocity) {
         send(((MASK_DATA_SIZE & velocity) << 1) | DOOR_OPEN);
     }
 
-    // Envia comando para fechar a porta, com o parameto de velocidade
+    // Envia comando para fechar a porta, com o parameto de velocidade, nao
+    // terminado enquanto Busy ativo
     public static void close(int velocity) {
         send( ((MASK_DATA_SIZE & velocity) << 1) | DOOR_CLOSE);
         while (!finished());
     }
 
-    // Envia o comando para a porta
+    // Envia o comando para a porta, esperando a disponibilidade do mecanismo
     private static void send(int cmd) {
         while (!finished());
         SerialEmitter.send(SerialEmitter.Destination.DOOR_MECHANISM, cmd);
