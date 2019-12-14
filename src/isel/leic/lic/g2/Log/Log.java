@@ -12,14 +12,18 @@ import java.time.format.DateTimeFormatter;
 
 public class Log {
     private static final String LOG_FILE = "log.txt";
+    private static final String FORMAT = "dd/MM/yyyy HH:mm:ss";
     private static FileAccess log;
 
+    // inicializa a classe com uma instancia de FileAccess
     public static void init () {
         log = new FileAccess(LOG_FILE);
     }
 
+    // escreve mensagem para o ficheiro de log, respeitanto o formato
     public static void logger(String msg) {
-        String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
+        String time =
+                LocalDateTime.now().format(DateTimeFormatter.ofPattern(FORMAT));
         log.writeln(time + " -> " + msg);
     }
 
