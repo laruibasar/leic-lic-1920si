@@ -9,14 +9,10 @@
  *
  * O mapeamento para o Output Port da placa vai ser mapeado de acordo com o seguinte
  * esquema de acordo com os bits disponiveis:
- * bit: 8   7   6   5   4   3   2    1
- *      0   0   0   0 DOOR LCD SCLK SDX
+ *       7   6   5  4       3   2    1   0
+ * In  : 0  BSY  0  0     0   0    0   0
+ * Out : 0   0   0  0   DOOR LCD SCLK SDX
  *
- *       7  6  5  4   3   2   1    0
- *         BSY
- * In  : 0  1  0  0   0   0   0    0
- * Out : 0  0  0  0   0   0   0    0
- *                  DOOR LCD SCLK SDX
  *
  * Este arranjo permite-nos, apenas com o hardware atual, ter ainda disponivel mais
  * 4 enderecamentos disponiveis para modulos de hardware.
@@ -29,7 +25,7 @@
 package isel.leic.lic.g2;
 
 public class SerialEmitter {
-    public static enum Destination {LCD, DOOR_MECHANISM};
+    public enum Destination {LCD, DOOR_MECHANISM};
 
     private final static int MASK_DATA = 0x01;
     private final static int MASK_SCLK = 0x02;
