@@ -52,7 +52,7 @@ public class App {
     }
 
     private static void saveAppState() {
-        TUI.showMessage("Shutdown...", 1, true);
+        TUI.showCenterMessage("Shutdown...", 1);
         Users.saveUsers();
         Time.sleep(TIMEOUT);
         TUI.clearScreen();
@@ -75,7 +75,7 @@ public class App {
             authenticatedMode(u);
         else {
             TUI.clearLine(1);
-            TUI.showMessage("Login Failed", 1, true);
+            TUI.showCenterMessage("Login Failed", 1);
             Time.sleep(TIMEOUT);
         }
         TUI.clearLine(1);
@@ -87,8 +87,8 @@ public class App {
         Log.logger(user.toString());
 
         TUI.clearScreen();
-        TUI.showMessage(user.getMessage(), 0, true);
-        TUI.showMessage(user.getName(), 1, true);
+        TUI.showCenterMessage(user.getMessage(), 0);
+        TUI.showCenterMessage(user.getName(), 1);
 
         while (Time.getTimeInMillis() < time && key != '#' && key != '*')
             key = TUI.readInputKeyboard();
@@ -98,11 +98,11 @@ public class App {
                 changePin(user);
 
         TUI.clearScreen();
-        TUI.showMessage(user.getName(), 0, true);
+        TUI.showCenterMessage(user.getName(), 0);
         DoorMechanism.open(1);
-        TUI.showMessage("Door opened", 1, true);
+        TUI.showCenterMessage("Door opened", 1);
         Time.sleep(TIMEOUT);
-        TUI.showMessage("Closing door...", 1, true);
+        TUI.showCenterMessage("Closing door...", 1);
         DoorMechanism.close(1);
     }
 
@@ -111,8 +111,8 @@ public class App {
         char key = 0;
 
         TUI.clearScreen();
-        TUI.showMessage("Change PIN?", 0, true);
-        TUI.showMessage("(Yes=*)", 1, true);
+        TUI.showCenterMessage("Change PIN?", 0);
+        TUI.showCenterMessage("(Yes=*)", 1);
 
         while (Time.getTimeInMillis() < time && key == 0) {
             key = TUI.readInputKeyboard();
@@ -126,18 +126,18 @@ public class App {
 
     private static void changePin(User user) {
         TUI.clearScreen();
-        TUI.showMessage("Insert New", 0, true);
+        TUI.showCenterMessage("Insert New", 0);
         int newPin = TUI.readInput(PIN, PIN_DIGITS, true, PIN_OBS, TIMEOUT, 1);
-        TUI.showMessage("Re-insert New", 0, true);
+        TUI.showCenterMessage("Re-insert New", 0);
         int confirmPin = TUI.readInput(PIN, PIN_DIGITS, true, PIN_OBS, TIMEOUT, 1);
 
         TUI.clearScreen();
-        TUI.showMessage("PIN has been", 0, true);
+        TUI.showCenterMessage("PIN has been", 0);
         if (newPin < 0 || newPin != confirmPin) {
-            TUI.showMessage("held", 1, true);
+            TUI.showCenterMessage("held", 1);
         } else {
             user.changePin(newPin);
-            TUI.showMessage("changed", 1, true);
+            TUI.showCenterMessage("changed", 1);
         }
         Time.sleep(TIMEOUT);
     }

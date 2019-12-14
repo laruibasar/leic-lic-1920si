@@ -20,13 +20,15 @@ import isel.leic.lic.g2.Keyboard.KBD;
 import isel.leic.utils.Time;
 
 public class TUI {
-    // retorno ETIMEOUT significa utilizador ultrapassou o timeout e sistema deve voltar ao estado idle
+    // retorno ETIMEOUT significa utilizador ultrapassou o timeout
+    // sistema deve voltar ao estado idle
     private static final int ETIMEOUT = -1;
     // retorno EABORT significa utilizador cancelou o comando
     private static final int EABORT = -2;
 
     private static final boolean CURSOR_SET = true;
     private static final boolean CURSOR_OFF = false;
+    private static final String FORMAT_TIME = "dd/MM/yyyy HH:mm";
 
     // Inicia a classe, estabelecendo os valores iniciais
     public static void init() {
@@ -44,28 +46,28 @@ public class TUI {
         return readInteger(ndigits, obsfucate, obs, timeout, lin, input_col);
     }
 
-    // apresentacao do tempo
-    public static void showCurrentDateTime(int lin) {
-        LocalDateTime currentLocal = LocalDateTime.now();
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-
-        showMessage(currentLocal.format(format), lin, 0);
-    }
-
-    // leitura de um carater
+    // leitura de um carater sem timeout
     public static char readInputKeyboard() {
         return KBD.getKey();
+    }
+
+    // apresentacao do tempo em linha definida pelo utilizador
+    public static void showCurrentDateTime(int lin) {
+        LocalDateTime currentLocal = LocalDateTime.now();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern(FORMAT_TIME);
+
+        showMessage(currentLocal.format(format), lin, 0);
     }
 
     // apresentacao de mensagem, no ultimo local de cursor
     public static void showMessage(String msg) {
         LCD.write(msg);
+        cursorSet(CURSOR_OFF);
     }
 
     // apresentacao de mensagem, na posicao pretendida
     public static void showMessage(String msg, int lin, int col) {
         LCD.cursor(lin, col);
-        cursorSet(CURSOR_OFF);
         showMessage(msg);
     }
 
@@ -74,13 +76,9 @@ public class TUI {
         showMessage(String.valueOf(c), lin, col);
     }
 
-    // apresentacao de mensagem, com indicacao de centrada
-    public static void showMessage(String msg, int lin, boolean center) {
-        int col = 0;
-        if (center)
-            col = (LCD.COLS - msg.length()) / 2;
-
-        showMessage(msg, lin, col);
+    // apresentacao de mensagem centrada
+    public static void showCenterMessage(String msg, int lin) {
+        showMessage(msg, lin, (LCD.COLS - msg.length()) / 2);
     }
 
     // limpar ecra
@@ -95,12 +93,8 @@ public class TUI {
         for (int i = 0; i < LCD.COLS; i++) {
             clear[i] = ' ';
         }
-        showMessage(String.copyValueOf(clear), 1, 0);
+        showMessage(String.copyValueOf(clear), lin, 0);
         cursorSet(CURSOR_OFF);
-    }
-
-    public static void cursorSet(boolean set) {
-        LCD.cursorSet(set);
     }
 
     // leitura de um numero, controlando a apresentacao do input do utilizador
@@ -143,13 +137,18 @@ public class TUI {
     private static void showInputRequest(int ndigits, boolean obsfucate, char obs, int lin, int col) {
         if (obsfucate) {
             String msg = "";
-            for (int i = 0; i < ndigits; i++) {
-                msg = msg + obs;
-            }
+            for (int i = 0; i < ndigits; i++)
+                msg += obs;
+
             showMessage(msg, lin, col);
             LCD.cursor(lin, col);
             cursorSet(CURSOR_SET);
         }
+    }
+
+    // controla a visibilidade do cursor no LCD
+    private static void cursorSet(boolean set) {
+        LCD.cursorSet(set);
     }
 
     public static void main(String[] args) {
