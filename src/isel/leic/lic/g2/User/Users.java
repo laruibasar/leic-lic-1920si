@@ -55,13 +55,13 @@ public class Users {
     }
 
     // remove um utilizador, tendo uma instancia de User
-    public static boolean removeUser(User u) {
-        return list.remove(u);
+    public static void removeUser(User u) {
+        list.remove(u);
     }
 
     // remove um utilizador, conhecendo um UIN
-    public static boolean removeUser(int uin) {
-        return removeUser(searchUser(uin));
+    public static void removeUser(int uin) {
+        removeUser(searchUser(uin));
     }
 
     // retorna o numero atual de utilizadores
