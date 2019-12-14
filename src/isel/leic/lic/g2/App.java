@@ -40,11 +40,11 @@ public class App {
             TUI.showCurrentDateTime(0);
             getAccessUser();
 
+            maintenance_mode = M.isMaintenanceMode();
             if (maintenance_mode) {
                 Maintenance.enterMaintenance();
                 TUI.clearLine(1);
             }
-            maintenance_mode = M.isMaintenanceMode();
             run = !Maintenance.endApp();
         }
 
