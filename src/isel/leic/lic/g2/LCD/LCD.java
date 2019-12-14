@@ -50,16 +50,16 @@ public class LCD {
     private static final int DISPLAY_OFF = 0x8;
 
     // Mascara para envio do nibble em parallel
-    private static int MASK_ENABLE = 0x20;      // 0010 0000
-    private static int MASK_PARALLEL_RS = 0x10; // 000R 0000
-    private static int MASK_LOW_DATA = 0x0f;    // 0000 1111
-    private static int MASK_HIGH_DATA = 0xf0;   // 1111 0000
+    private static int MASK_ENABLE = 0x20;
+    private static int MASK_PARALLEL_RS = 0x10;
+    private static int MASK_LOW_DATA = 0x0f;
+    private static int MASK_HIGH_DATA = 0xf0;
 
     // Escreve um nibble de comando/dados no LCD em paralelo
     // O sinal para a HAL vai ser: 0 0 E (RS) NIBBLE
     // seguindo o diagrama temporal da datasheet do equipamento
     private static void writeNibbleParallel(boolean rs, int data) {
-        if (rs == true)
+        if (rs)
             HAL.setBits(MASK_PARALLEL_RS);
         else
             HAL.clrBits(MASK_PARALLEL_RS);
@@ -75,7 +75,7 @@ public class LCD {
     // 0 0 0 (D3) (D2) (D1) (D0) (RS) de acordo com a especificao projeto
     private static void writeNibbleSerial(boolean rs, int data) {
         data = (data & MASK_LOW_DATA) << 1;
-        if (rs == true)
+        if (rs)
             data |= 0x1;
 
         SerialEmitter.send(SerialEmitter.Destination.LCD, data);
@@ -153,12 +153,14 @@ public class LCD {
         writeCMD(0x80 | (lin << 6) | col);
     }
 
+    // Envia comando para controlar a visibilidade do cursor no lcs
     public static void cursorSet(boolean set) {
         if (set)
             writeCMD(DISPLAY_ON);
         else
             writeCMD(CURSOR_OFF);
     }
+
     // Envia comando para limpar o ecrã e posicionar o cursor em (0,0)
     public static void clear() {
         writeCMD(DISPLAY_CLEAR);
