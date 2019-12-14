@@ -114,7 +114,6 @@ public class LCD {
         else
             HAL.init();
 
-        System.out.print("Initialization LCD...\n");
         Time.sleep(15); // 1 standby
         writeNibble(false, 0x3);  // FS
         Time.sleep(5);  // 2 standby
@@ -128,7 +127,6 @@ public class LCD {
         writeCMD(DISPLAY_OFF);  // display off
         writeCMD(DISPLAY_CLEAR);    // clear
         writeCMD(0x6);  // define I/D:1, S:0
-        System.out.println("LCD ready");
 
         writeCMD(DISPLAY_ON); // display on
     }
