@@ -12,7 +12,7 @@ public class HAL {
     private static int last_write;
 
     // Inicia a classe
-    // Apaga e inicia todos os bits a 1, deixa em active low as saidas
+    // Apaga e inicia todos os bits a 1
     public static void init() {
         clrBits(0xff);
     }
