@@ -53,6 +53,10 @@ public class User {
         pin = generatePassword(newPin);
     }
 
+    public String getMessage() {
+        return message;
+    }
+
     public void removeMessage() {
         message = "";
     }
@@ -66,13 +70,13 @@ public class User {
     }
 
     public String save() {
-        return toString();
+        String msg = (message.length() > 0) ? message + separator : "";
+        return String.valueOf(uin) + separator + String.valueOf(pin) + separator + name + separator + msg;
     }
 
     @Override
     public String toString() {
-        String msg = (message.length() > 0) ? message + separator : "";
-        return String.valueOf(uin) + separator + String.valueOf(pin) + separator + name + separator + msg;
+        return String.valueOf(uin) + separator + name;
     }
 
     public static void main(String[] args) {
