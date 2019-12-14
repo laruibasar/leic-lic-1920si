@@ -25,7 +25,7 @@
 package isel.leic.lic.g2;
 
 public class SerialEmitter {
-    public enum Destination {LCD, DOOR_MECHANISM};
+    public enum Destination {LCD, DOOR_MECHANISM}
 
     private final static int MASK_DATA = 0x01;
     private final static int MASK_SCLK = 0x02;
@@ -48,8 +48,6 @@ public class SerialEmitter {
 
     // envia uma trama para o SerialReceiver identificando o destino em addr
     // e os bits de dados em 'data'
-    // o método faz o envio, sem validar se está busy, para isso esta disponivel
-    // o método isBusy que deve ser utilizado pelas classes antes de fazer a chamada
     public static void send(Destination addr, int data) {
         switch (addr) {
             case LCD:
@@ -79,9 +77,6 @@ public class SerialEmitter {
         HAL.clrBits(MASK_SCLK);
         parity %= 2;
         HAL.writeBits(MASK_DATA, parity);
-        HAL.setBits(MASK_SCLK);
-
-        HAL.clrBits(MASK_SCLK);
         HAL.setBits(MASK_SCLK);
 
         HAL.clrBits(MASK_DATA);
