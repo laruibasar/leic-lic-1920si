@@ -19,6 +19,7 @@ public class Users {
     private static FileAccess users;
     private static Scanner sc;
 
+    // inicializa a classe com um handler para o ficheiro
     public static void init() {
         users = new FileAccess(USERS_FILE);
         sc = users.read();
@@ -53,7 +54,7 @@ public class Users {
         return false;
     }
 
-    // remove um utilizador, tendo uma instacia de User
+    // remove um utilizador, tendo uma instancia de User
     public static boolean removeUser(User u) {
         return list.remove(u);
     }
@@ -70,10 +71,10 @@ public class Users {
 
     // pesquisa um utilizador na lista
     public static User searchUser(int uin) {
-        for (User u : list) {
+        for (User u : list)
             if (u.getUID() == uin)
                 return u;
-        }
+
         return null;
     }
 
