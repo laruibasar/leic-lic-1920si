@@ -46,6 +46,7 @@ public class LCD {
     // Define comandos para o LCD
     private static final int DISPLAY_CLEAR = 0x1;
     private static final int DISPLAY_ON = 0xf;
+    private static final int CURSOR_OFF = 0xc;
     private static final int DISPLAY_OFF = 0x8;
 
     // Mascara para envio do nibble em parallel
@@ -154,6 +155,12 @@ public class LCD {
         writeCMD(0x80 | (lin << 6) | col);
     }
 
+    public static void cursorSet(boolean set) {
+        if (set)
+            writeCMD(DISPLAY_ON);
+        else
+            writeCMD(CURSOR_OFF);
+    }
     // Envia comando para limpar o ecrã e posicionar o cursor em (0,0)
     public static void clear() {
         writeCMD(DISPLAY_CLEAR);
