@@ -1,3 +1,16 @@
+/*-
+ * SPDX-License-Identifier: BSD-3-Clause
+ * Copyright (c) 2019 Luis Bandarra <luis.bandarra@homestudio.pt>
+ */
+
+/*
+ * A classe Maintenance disponibiliza todos os metodos para permitir efetuar
+ * as operacoes presentes nos requisitos
+ *  - Adicionar utilizador
+ *  - Apagar utilizador
+ *  - Adicionar mensagem a utilizador
+ *  - Terminar a aplicacao
+ */
 package isel.leic.lic.g2;
 
 import isel.leic.lic.g2.TUI.TUI;
@@ -10,14 +23,20 @@ public class Maintenance {
     private static Scanner sc;
     private static boolean turnOff;
 
-    private static final String PIN_PATTERN = "^\\d{4}";
+    // RegExp para validar o uin
     private static final String USER_PATTERN = "^\\d+";
+    // RegExp para validar o pin
+    private static final String PIN_PATTERN = "^\\d{4}";
+    // erro no pin introduzido
+    private static final int EPIN = -1;
 
+    // inicializa a classe
     public static void init() {
         sc = new Scanner(System.in);
         turnOff = false;
     }
 
+    // Entrada na classe para obter o menu de opcoes
     public static void enterMaintenance() {
         showMaintenanceMenu();
         while (M.isMaintenanceMode() && !turnOff) {
@@ -51,10 +70,12 @@ public class Maintenance {
             System.out.println("Existing maintenance mode...");
     }
 
+    // Indica se a opcao de terminar a aplicacao foi dado
     public static boolean endApp() {
         return turnOff;
     }
 
+    // permite adicionar um novo utilizador ao sistema
     private static void maintenanceNewUser() {
         System.out.print("User name? ");
         String name = sc.nextLine();
@@ -71,6 +92,7 @@ public class Maintenance {
         System.out.println("Adding user " + u.toString());
     }
 
+    // permite remover um utilizador do sistema
     private static void maintenanceDelUser() {
         User u = getUser();
         if (u == null) {
@@ -87,6 +109,7 @@ public class Maintenance {
         }
     }
 
+    // permite adicionar uma mensagem ao utilizador
     private static void maintenanceInsertMessage() {
         User u = getUser();
         if (u == null) {
@@ -116,11 +139,13 @@ public class Maintenance {
         u.changeMessage(message);
     }
 
+    // adiciona uma mensagem ao metodo de confirmacao
     private static boolean confirm(String msg) {
         System.out.print(msg + " ");
         return confirm();
     }
 
+    // metodo de confirmacao pelo administrador da acao
     private static boolean confirm() {
         System.out.print("Y/N? ");
         String confirm = "Y";
@@ -129,8 +154,7 @@ public class Maintenance {
         return confirm.equalsIgnoreCase(answer);
     }
 
-
-
+    // metodo para pedir ao administrador o uin
     private static User getUser() {
         System.out.print("UIN? ");
         String uin = sc.nextLine();
@@ -141,6 +165,7 @@ public class Maintenance {
         return Users.searchUser(Integer.parseInt(uin));
     }
 
+    // metodo para pedir ao administrador o pin
     private static int getPin() {
         boolean ask = true;
         int newPin = 0;
@@ -151,7 +176,7 @@ public class Maintenance {
 
             if (pin.length() == 0) {
                 ask = false;
-                return -1;
+                return EPIN;
             } else if (pin.matches(PIN_PATTERN)) {
                     newPin = Integer.parseInt(pin);
                     ask = false;
@@ -163,6 +188,7 @@ public class Maintenance {
         return newPin;
     }
 
+    // metodo para apresentar informacao na entrada do modo manutencao
     private static void showMaintenanceMenu() {
         TUI.clearScreen();
         TUI.showMessage("Out of Service", 0, true);
