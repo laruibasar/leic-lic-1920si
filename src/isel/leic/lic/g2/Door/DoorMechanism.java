@@ -40,6 +40,7 @@ public class DoorMechanism {
     // Envia comando para fechar a porta, com o parameto de velocidade
     public static void close(int velocity) {
         send( ((MASK_DATA_SIZE & velocity) << 1) | DOOR_CLOSE);
+        while (!finished());
     }
 
     // Envia o comando para a porta
