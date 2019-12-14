@@ -11,6 +11,7 @@ public class Maintenance {
     private static boolean turnOff;
 
     private static final String PIN_PATTERN = "^\\d{4}";
+    private static final String USER_PATTERN = "^\\d+";
 
     public static void init() {
         sc = new Scanner(System.in);
@@ -134,7 +135,7 @@ public class Maintenance {
         System.out.print("UIN? ");
         String uin = sc.nextLine();
 
-        if (!uin.matches(PIN_PATTERN))
+        if (!uin.matches(USER_PATTERN))
             return null;
 
         return Users.searchUser(Integer.parseInt(uin));
