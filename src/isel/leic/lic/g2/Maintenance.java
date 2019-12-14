@@ -10,6 +10,8 @@ public class Maintenance {
     private static Scanner sc;
     private static boolean turnOff;
 
+    private static final String PIN_PATTERN = "^\\d{4}";
+
     public static void init() {
         sc = new Scanner(System.in);
         turnOff = false;
@@ -132,7 +134,7 @@ public class Maintenance {
         System.out.print("UIN? ");
         String uin = sc.nextLine();
 
-        if (!uin.matches("^\\d+"))
+        if (!uin.matches(PIN_PATTERN))
             return null;
 
         return Users.searchUser(Integer.parseInt(uin));
@@ -149,11 +151,11 @@ public class Maintenance {
             if (pin.length() == 0) {
                 ask = false;
                 return -1;
-            } else if (pin.matches("^\\d{1,4}")) {
+            } else if (pin.matches(PIN_PATTERN)) {
                     newPin = Integer.parseInt(pin);
                     ask = false;
             } else {
-                System.out.println("The length pf PIN is only of 4 digits.");
+                System.out.println("The length of PIN must be of 4 digits.");
             }
         }
 
