@@ -56,7 +56,7 @@ public class Maintenance {
                     break;
                 case "OFF":
                     turnOff = true;
-                    TUI.showMessage("Shutdown...", 1, true);
+                    TUI.showCenterMessage("Shutdown...", 1);
                     break;
                 case "":
                     continue;
@@ -88,8 +88,10 @@ public class Maintenance {
 
         int uin = Users.getAvailableUIN();
         User u = new User(name, uin, pin, "");
-        Users.addUser(u);
-        System.out.println("Adding user " + u.toString());
+        if (Users.addUser(u))
+            System.out.println("Adding user " + u.toString());
+        else
+            System.out.println("Exceeded maximum number of users available.");
     }
 
     // permite remover um utilizador do sistema
@@ -191,8 +193,8 @@ public class Maintenance {
     // metodo para apresentar informacao na entrada do modo manutencao
     private static void showMaintenanceMenu() {
         TUI.clearScreen();
-        TUI.showMessage("Out of Service", 0, true);
-        TUI.showMessage("Wait", 1, true);
+        TUI.showCenterMessage("Out of Service", 0);
+        TUI.showCenterMessage("Wait", 1);
 
         System.out.println("Turn M key off and ENTER, to terminate the maintenance mode.");
         System.out.println("Commands: NEW, DEL, MSG, or OFF");
