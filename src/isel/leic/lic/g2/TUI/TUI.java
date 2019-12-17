@@ -32,9 +32,6 @@ public class TUI {
 
     // Inicia a classe, estabelecendo os valores iniciais
     public static void init() {
-        KBD.init();
-        LCD.setSerialInterface(true);
-        LCD.init();
         cursorSet(CURSOR_OFF);
     }
 
@@ -152,6 +149,9 @@ public class TUI {
     }
 
     public static void main(String[] args) {
+        KBD.init();
+        LCD.setSerialInterface(true);
+        LCD.init();
         init();
 
         System.out.println("Testing TUI Class");

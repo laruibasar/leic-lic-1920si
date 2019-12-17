@@ -35,15 +35,13 @@ public class SerialEmitter {
     private final static int TX_FRAME_SIZE = 5;
 
     private static int write_addr;
-    private static int parity;
 
     // inicia a classe
     public static void init() {
-        HAL.init();
         write_addr = 0;
-        parity = 0;
         HAL.setBits(MASK_LCD);
         HAL.setBits(MASK_DOOR);
+
     }
 
     // envia uma trama para o SerialReceiver identificando o destino em addr
@@ -61,23 +59,14 @@ public class SerialEmitter {
         }
         HAL.clrBits(write_addr);
 
-        // simples verificacao de controlo da transmissao
-        // dependente do valor da transmissao de par ou impar
-        parity = 0;
+        while (isBusy());
+
         for (int i = 0; i < TX_FRAME_SIZE; i++) {
             HAL.clrBits(MASK_SCLK);
-            int tx_data = MASK_DATA & data;
-            parity += (tx_data);
-            HAL.writeBits(MASK_DATA, tx_data);
+            HAL.writeBits(MASK_DATA, MASK_DATA & data);
             data >>= 1;
             HAL.setBits(MASK_SCLK);
         }
-
-        // enviar a paridade do sinal
-        HAL.clrBits(MASK_SCLK);
-        parity %= 2;
-        HAL.writeBits(MASK_DATA, parity);
-        HAL.setBits(MASK_SCLK);
 
         HAL.clrBits(MASK_DATA);
         HAL.clrBits(MASK_SCLK);
@@ -91,6 +80,7 @@ public class SerialEmitter {
     }
 
     public static void main(String[] args) {
+        HAL.init();
         init();
 
         send(Destination.LCD, 0xf);  // 0000 1111

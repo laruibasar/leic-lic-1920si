@@ -1,0 +1,16 @@
+digraph "isel.leic.lic.g2.FileAccess.read"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="isel.leic.lic.g2.FileAccess.read",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="isel.leic.lic.g2.User.Users.init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classisel_1_1leic_1_1lic_1_1g2_1_1_user_1_1_users.html#ae0c4b5e1dd5072043180a2e48667946c",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="isel.leic.lic.g2.App.init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classisel_1_1leic_1_1lic_1_1g2_1_1_app.html#afc79da9e29b49d52529cf43de830f463",tooltip=" "];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="isel.leic.lic.g2.App.main",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classisel_1_1leic_1_1lic_1_1g2_1_1_app.html#a42477b20f03497da542309614b77b105",tooltip=" "];
+  Node2 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node5 [label="isel.leic.lic.g2.User.Users.main",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classisel_1_1leic_1_1lic_1_1g2_1_1_user_1_1_users.html#ad8103c47c1ee43c315c5a28abf8d4fdc",tooltip=" "];
+}

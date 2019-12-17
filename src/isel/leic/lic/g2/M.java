@@ -18,9 +18,7 @@ public class M {
     private static final int MASK_MAINTENANCE = 0x80;
 
     // inicializacao da classe
-    public static void init() {
-        HAL.init();
-    }
+    public static void init() { }
 
     // verifica se o bit da manutencao esta ativo
     public static boolean isMaintenanceMode() {
