@@ -93,8 +93,8 @@ public class TUI {
         for (int i = 0; i < LCD.COLS; i++) {
             clear[i] = ' ';
         }
-        showMessage(String.copyValueOf(clear), lin, 0);
         cursorSet(CURSOR_OFF);
+        showMessage(String.copyValueOf(clear), lin, 0);
     }
 
     // leitura de um numero, controlando a apresentacao do input do utilizador

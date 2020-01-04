@@ -45,6 +45,7 @@ public class App {
                 Maintenance.enterMaintenance();
                 TUI.clearLine(1);
             }
+
             run = !Maintenance.endApp();
         }
 
@@ -69,19 +70,31 @@ public class App {
             return;
 
         int pin = TUI.readInput(PIN, PIN_DIGITS, true, PIN_OBS, TIMEOUT, 1);
+        if (pin < 0) {
+            TUI.clearLine(1);
+            return;
+        }
+
         u = Users.searchUser(uin);
 
-        if (u == null)
+        if (u == null) {
+            loginFailed();
+            TUI.clearLine(1);
             return;
+        }
 
         if (u.checkPin(pin))
             authenticatedMode(u);
-        else {
-            TUI.clearLine(1);
-            TUI.showCenterMessage("Login Failed", 1);
-            Time.sleep(TIMEOUT);
-        }
+        else
+            loginFailed();
+
         TUI.clearLine(1);
+    }
+
+    private static void loginFailed() {
+        TUI.clearLine(1);
+        TUI.showCenterMessage("Login Failed", 1);
+        Time.sleep(TIMEOUT);
     }
 
     // permite efetuar accoes a utilizadores autenticados
