@@ -32,19 +32,19 @@
  * do enviado:
  *   ____________________
  *  |      |      |      |
- *  |  1   |  2   |  3   | r3
+ *  |  1   |  2   |  3   | r0
  *  | 0000 | 0100 | 1000 |
  *  |--------------------|
  *  |      |      |      |
- *  |  4   |  5   |  6   | r2
+ *  |  4   |  5   |  6   | r1
  *  | 0001 | 0101 | 1001 |
  *  |--------------------|
  *  |      |      |      |
- *  |  7   |  8   |  9   | r1
+ *  |  7   |  8   |  9   | r2
  *  | 0010 | 0110 | 1010 |
  *  |--------------------|
  *  |      |      |      |
- *  |  *   |  0   |  #   | r0
+ *  |  *   |  0   |  #   | r3
  *  | 0011 | 0111 | 1011 |
  *  |______|______|______|
  *     c0     c1     c2
@@ -72,9 +72,7 @@ public class KBD {
     // verificando se o sistema esta em modo simulacao ou hardware
     // e definindo o mapeamento do teclado a utilizar
     public static void init() {
-        HAL.init();
         String p = Utils.getProperties("simulation");
-
         if (p != null)
             simul = p.equalsIgnoreCase("true");
 

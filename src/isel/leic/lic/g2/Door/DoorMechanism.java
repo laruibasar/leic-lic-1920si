@@ -16,6 +16,7 @@
  */
 package isel.leic.lic.g2.Door;
 
+import isel.leic.lic.g2.HAL;
 import isel.leic.lic.g2.SerialEmitter;
 
 // Controla o estado do mecanismo de abertura da porta
@@ -25,9 +26,7 @@ public class DoorMechanism {
     private static final int DOOR_CLOSE = 0;
 
     // Inicia a classe, estabelecendo os valores iniciais
-    public static void init() {
-        SerialEmitter.init();
-    }
+    public static void init() { }
 
     // Envia comando para abrir a porta, com o parametro de velocidade
     public static void open(int velocity) {
@@ -38,12 +37,10 @@ public class DoorMechanism {
     // terminado enquanto Busy ativo
     public static void close(int velocity) {
         send( ((MASK_DATA_SIZE & velocity) << 1) | DOOR_CLOSE);
-        while (!finished());
     }
 
     // Envia o comando para a porta, esperando a disponibilidade do mecanismo
     private static void send(int cmd) {
-        while (!finished());
         SerialEmitter.send(SerialEmitter.Destination.DOOR_MECHANISM, cmd);
     }
 
@@ -54,6 +51,8 @@ public class DoorMechanism {
     }
 
     public static void main(String[] args) {
+        HAL.init();
+        SerialEmitter.init();
         init();
 
         System.out.println("Opening...");

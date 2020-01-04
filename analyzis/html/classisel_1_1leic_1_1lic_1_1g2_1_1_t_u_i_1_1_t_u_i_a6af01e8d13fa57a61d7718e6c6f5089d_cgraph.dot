@@ -1,0 +1,14 @@
+digraph "isel.leic.lic.g2.TUI.TUI.clearScreen"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="isel.leic.lic.g2.TUI.TUI.clear\lScreen",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="isel.leic.lic.g2.LCD.LCD.clear",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classisel_1_1leic_1_1lic_1_1g2_1_1_l_c_d_1_1_l_c_d.html#ab95c0d03f563db3aa177dd7c3b01fff2",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="isel.leic.lic.g2.TUI.TUI.cursorSet",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classisel_1_1leic_1_1lic_1_1g2_1_1_t_u_i_1_1_t_u_i.html#ae88bac5296b7252af21ab4f86ae4e59d",tooltip=" "];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="isel.leic.lic.g2.LCD.LCD.cursorSet",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classisel_1_1leic_1_1lic_1_1g2_1_1_l_c_d_1_1_l_c_d.html#a9290b873a306f87c0dca501ddded0110",tooltip=" "];
+}

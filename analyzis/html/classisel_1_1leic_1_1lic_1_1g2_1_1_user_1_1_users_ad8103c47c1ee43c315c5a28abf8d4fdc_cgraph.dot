@@ -1,0 +1,33 @@
+digraph "isel.leic.lic.g2.User.Users.main"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="isel.leic.lic.g2.User.Users.main",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="isel.leic.lic.g2.User.Users.addUser",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classisel_1_1leic_1_1lic_1_1g2_1_1_user_1_1_users.html#a8993558241070b7a0272244257b06ff3",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="isel.leic.lic.g2.User.Users.count",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classisel_1_1leic_1_1lic_1_1g2_1_1_user_1_1_users.html#a1100cd726bdd8d63c37763d5c598ee66",tooltip=" "];
+  Node2 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="isel.leic.lic.g2.User.Users.get\lAvailableUIN",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classisel_1_1leic_1_1lic_1_1g2_1_1_user_1_1_users.html#a9038813b4a38bf1b4a6d58a10ef4ee23",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="isel.leic.lic.g2.User.Users.init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classisel_1_1leic_1_1lic_1_1g2_1_1_user_1_1_users.html#ae0c4b5e1dd5072043180a2e48667946c",tooltip=" "];
+  Node5 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="isel.leic.lic.g2.FileAccess.read",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classisel_1_1leic_1_1lic_1_1g2_1_1_file_access.html#ab54884a984ffebc48ec0f87f887efbc0",tooltip=" "];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="isel.leic.lic.g2.User.Users.removeUser",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classisel_1_1leic_1_1lic_1_1g2_1_1_user_1_1_users.html#a330b69e0ace58671b5994a14a13f2e59",tooltip=" "];
+  Node1 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="isel.leic.lic.g2.User.Users.save\lUsers",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classisel_1_1leic_1_1lic_1_1g2_1_1_user_1_1_users.html#a49126f41ff6b9052f92620165ffb6b28",tooltip=" "];
+  Node8 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="isel.leic.lic.g2.FileAccess.clear",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classisel_1_1leic_1_1lic_1_1g2_1_1_file_access.html#a545edf1dc1b682c45fd57e87d0343fd7",tooltip=" "];
+  Node8 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="isel.leic.lic.g2.FileAccess.writeln",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classisel_1_1leic_1_1lic_1_1g2_1_1_file_access.html#a0c1bd7f3d8025084155a86c969c191c8",tooltip=" "];
+  Node1 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="isel.leic.lic.g2.User.Users.searchUser",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classisel_1_1leic_1_1lic_1_1g2_1_1_user_1_1_users.html#a46d5f325f9a8e85c54dea9eee901f4f8",tooltip=" "];
+  Node1 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="isel.leic.lic.g2.User.User.to\lString",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classisel_1_1leic_1_1lic_1_1g2_1_1_user_1_1_user.html#a9df05182f5da12b2a55fe520b6562e39",tooltip=" "];
+  Node1 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="isel.leic.lic.g2.User.User.User",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classisel_1_1leic_1_1lic_1_1g2_1_1_user_1_1_user.html#a178f0dc3ccb545ff71934278dd6aac83",tooltip=" "];
+}

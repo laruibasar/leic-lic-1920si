@@ -1,0 +1,30 @@
+digraph "isel.leic.lic.g2.TUI.TUI.init"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="isel.leic.lic.g2.TUI.TUI.init",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="isel.leic.lic.g2.TUI.TUI.cursorSet",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classisel_1_1leic_1_1lic_1_1g2_1_1_t_u_i_1_1_t_u_i.html#ae88bac5296b7252af21ab4f86ae4e59d",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="isel.leic.lic.g2.LCD.LCD.cursorSet",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classisel_1_1leic_1_1lic_1_1g2_1_1_l_c_d_1_1_l_c_d.html#a9290b873a306f87c0dca501ddded0110",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="isel.leic.lic.g2.Keyboard.\lKBD.init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classisel_1_1leic_1_1lic_1_1g2_1_1_keyboard_1_1_k_b_d.html#ae363dba819b5509a27ec9e5ea1f7e945",tooltip=" "];
+  Node4 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="isel.leic.lic.g2.Utils.get\lProperties",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classisel_1_1leic_1_1lic_1_1g2_1_1_utils.html#a4cd78caf8b2d306ce0dcbd9c13299ce2",tooltip=" "];
+  Node4 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="isel.leic.lic.g2.HAL.init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classisel_1_1leic_1_1lic_1_1g2_1_1_h_a_l.html#af7539422bf1e4f0f8a27be6b25f74db7",tooltip=" "];
+  Node6 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="isel.leic.lic.g2.HAL.clrBits",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classisel_1_1leic_1_1lic_1_1g2_1_1_h_a_l.html#a08ab15ee3113f739261e847465fec706",tooltip=" "];
+  Node1 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="isel.leic.lic.g2.LCD.LCD.init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classisel_1_1leic_1_1lic_1_1g2_1_1_l_c_d_1_1_l_c_d.html#a60e1f73d46f9fba1ef4c993a60ee3366",tooltip=" "];
+  Node8 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="isel.leic.lic.g2.SerialEmitter.init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classisel_1_1leic_1_1lic_1_1g2_1_1_serial_emitter.html#aa310cd485f9560af93689df2bc3eecc3",tooltip=" "];
+  Node9 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="isel.leic.lic.g2.HAL.setBits",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classisel_1_1leic_1_1lic_1_1g2_1_1_h_a_l.html#a2ccd8dbfa7a7664e9d67e2321ba2a0f3",tooltip=" "];
+  Node1 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="isel.leic.lic.g2.LCD.LCD.set\lSerialInterface",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classisel_1_1leic_1_1lic_1_1g2_1_1_l_c_d_1_1_l_c_d.html#a2301c191bbb493babff2f4633a713e06",tooltip=" "];
+}
