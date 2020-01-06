@@ -53,13 +53,12 @@ public class SerialEmitter {
                 break;
             case DOOR_MECHANISM:
                 write_addr = MASK_DOOR;
+                while (isBusy());
                 break;
             default:
                 return;
         }
         HAL.clrBits(write_addr);
-
-        while (isBusy());
 
         for (int i = 0; i < TX_FRAME_SIZE; i++) {
             HAL.clrBits(MASK_SCLK);
