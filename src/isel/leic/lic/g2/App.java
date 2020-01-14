@@ -171,9 +171,12 @@ public class App {
         TUI.clearScreen();
         TUI.showCenterMessage(user, 0);
         DoorMechanism.open(VELOCITY_OPEN);
+        while(!DoorMechanism.finished());
+
         TUI.showCenterMessage("Door opened", 1);
         Time.sleep(TIMEOUT);
         TUI.showCenterMessage("Closing door...", 1);
         DoorMechanism.close(VELOCITY_CLOSE);
+        while(!DoorMechanism.finished());
     }
 }
