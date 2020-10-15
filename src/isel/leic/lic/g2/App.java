@@ -14,10 +14,10 @@ public class App {
     private static boolean run;
 
     private static final String USER = "UIN:";
-    private static final int USER_DIGITS = 3;
+    private static final int USER_DIGITS = 4;
     private static final char USER_OBS = '?';
     private static final String PIN = "PIN:";
-    private static final int PIN_DIGITS = 4;
+    private static final int PIN_DIGITS = 6;
     private static final char PIN_OBS = '*';
     private static final long TIMEOUT = 5000;
     private static final int VELOCITY_OPEN = 5;

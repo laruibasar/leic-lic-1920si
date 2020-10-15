@@ -14,7 +14,7 @@ import isel.leic.lic.g2.FileAccess;
 
 public class Users {
     private static final String USERS_FILE = "users.txt";
-    private static final int MAX_USERS = 1000;
+    private static final int MAX_USERS = 2000;
     private static LinkedList<User> list;
     private static FileAccess users;
     private static Scanner sc;

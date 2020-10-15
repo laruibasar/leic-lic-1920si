@@ -26,7 +26,7 @@ public class Maintenance {
     // RegExp para validar o uin
     private static final String USER_PATTERN = "^\\d+";
     // RegExp para validar o pin
-    private static final String PIN_PATTERN = "^\\d{4}";
+    private static final String PIN_PATTERN = "^\\d{6}";
     // erro no pin introduzido
     private static final int EPIN = -1;
 
